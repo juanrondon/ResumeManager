@@ -76,10 +76,10 @@
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label asp-for="Skills" class="col-md-2 control-label"></label>
+                                    <label asp-for="CoreSkills" class="col-md-2 control-label"></label>
                                     <div class="col-md-10">
-                                        <input asp-for="Skills" class="form-control" />
-                                        <span asp-validation-for="Skills" class="text-danger"></span>
+                                        <input asp-for="CoreSkills" class="form-control" />
+                                        <span asp-validation-for="CoreSkills" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
@@ -98,9 +98,9 @@
                         <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label asp-for="Summary" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="Summary" class="form-control" />
+                                    <div class="col-md-12">
+                                        <input id="summary" type="hidden" name="Summary">
+                                        <trix-editor placeholder="Please enter a summary of your skills" input="summary"></trix-editor>
                                         <span asp-validation-for="Summary" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -207,8 +207,8 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <input id="editor" type="hidden" name="References">
-                                        <trix-editor placeholder="Please enter your references" input="editor"></trix-editor>
+                                        <input id="references" type="hidden" name="References">
+                                        <trix-editor placeholder="Please enter your references" input="references"></trix-editor>
                                         <span asp-validation-for="References" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -225,9 +225,17 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @*<a asp-action="Index">Back to List</a>*@
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        (function () {
+            $(document).ready(function () {
+                $.validator.setDefaults({ ignore: '' });
+            });
+        })();
+
+    </script>
 }

@@ -34,11 +34,15 @@ namespace ResumeManager.UI.Models.Resume
 
         public List<ResumeLanguage> Languages { get; set; }
 
-        public string Skills { get; set; }
+        public string CoreSkills { get; set; }
+
+        [Required(ErrorMessage = "Summary field is required")]
         public string Summary { get; set; }
+        [Required]
         public string Jobs { get; set; }
         public string Qualifications { get; set; }
         public string Courses { get; set; }
+        [Required]
         public string Interests { get; set; }
         public string References { get; set; }
     }
