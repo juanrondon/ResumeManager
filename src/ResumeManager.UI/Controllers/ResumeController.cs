@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ResumeManager.DataAccess.Models;
@@ -29,6 +30,16 @@ namespace ResumeManager.UI.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult GetLanguages()
+        {
+            var result = _context.Languages.OrderBy(l => l.Name).ToList();
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
 
         [HttpGet]
         public async Task<IActionResult> DisplayResume()

@@ -2,9 +2,10 @@
 @{
     ViewData["Title"] = "CreateResume";
 }
+
 <h2>Create Resume</h2>
 
-<form asp-action="CreateResume">
+<form asp-action="CreateResume" id="createResumeFormId">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="container">
         <div class="row">
@@ -41,28 +42,36 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label asp-for="FirstName" class="control-label"></label>
+                                            <label asp-for="FirstName" class="control-label req"></label> 
                                             <input asp-for="FirstName" placeholder="Enter your first name" class="form-control" />
                                             <span asp-validation-for="FirstName" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="LastName" class="control-label"></label>
+                                            <label asp-for="LastName" class="control-label req"></label>
                                             <input asp-for="LastName" placeholder="Enter your last name" class="form-control" />
                                             <span asp-validation-for="LastName" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="Email" class="control-label"></label>
+                                            <label asp-for="Email" class="control-label req"></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon success"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
                                                 <input asp-for="Email" placeholder="Enter your email" class="form-control" />
                                             </div>
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
+                                        <div class="form-group" id="content">
+                                            <label asp-for="LanguageListIds" class="control-label req"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon success"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                                                <select multiple="multiple" id="languageList" name="LanguageListIds"></select>
+                                            </div>
+                                            <span class="k-invalid-msg" data-for="LanguageListIds"></span>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label asp-for="Mobile" class="control-label"></label>
+                                            <label asp-for="Mobile" class="control-label req"></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon success"><i class="fa fa-phone" aria-hidden="true"></i></span>
                                                 <input asp-for="Mobile" placeholder="Enter your phone" class="form-control" />
@@ -70,16 +79,30 @@
                                             <span asp-validation-for="Mobile" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="Address" class="control-label"></label>
+                                            <label asp-for="Address" class="control-label req"></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon success"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
                                                 <input asp-for="Address" placeholder="Enter your address" class="form-control" />
                                             </div>
                                             <span asp-validation-for="Address" class="text-danger"></span>
                                         </div>
+                                        <div class="form-group">
+                                            <label asp-for="LinkedIn" class="control-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon success"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                                                <input asp-for="LinkedIn" placeholder="linkedin.com/in/username" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="GitHub" class="control-label"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon success"><i class="fa fa-github" aria-hidden="true"></i></span>
+                                                <input asp-for="GitHub" placeholder="github.com/username" class="form-control" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
+                                <button type="button" class="btn btn-warning" id="contactDetails">Save</button>
                             </div>
                         </div>
                     </div>
@@ -234,7 +257,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-success" />
+                    <input type="submit" value="Confirm and finalize" class="btn btn-warning" />
                 </div>
             </div>
         </div>

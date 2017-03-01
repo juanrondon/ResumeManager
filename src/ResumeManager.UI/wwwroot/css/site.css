@@ -38,8 +38,13 @@ textarea {
     margin-left: 20px;
 }
 
-.input-group-addon.success {
-    color: rgb(255, 255, 255);
-    background-color: rgb(92, 184, 92);
-    border-color: rgb(76, 174, 76);
+/*Colour of the accordion*/
+.panel-default > .panel-heading {
+    background-color: #428bca;
+    color: white;
+}
+
+.req:after {
+    content: " *";
+    color: #d9534f;
 }

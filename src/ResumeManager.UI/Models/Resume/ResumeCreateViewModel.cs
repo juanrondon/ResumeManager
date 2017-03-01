@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ResumeManager.DataAccess.Models;
 
 namespace ResumeManager.UI.Models.Resume
@@ -15,7 +16,7 @@ namespace ResumeManager.UI.Models.Resume
         [Display(Name = "First Name")]
         [DataType(DataType.Text)]
         public string FirstName { get; set; }
-        
+
         [Required(ErrorMessage = "Last Name field is required")]
         [Display(Name = "Last Name")]
         [DataType(DataType.Text)]
@@ -32,7 +33,15 @@ namespace ResumeManager.UI.Models.Resume
         [Required(ErrorMessage = "Address field is required")]
         public string Address { get; set; }
 
-        public List<ResumeLanguage> Languages { get; set; }
+        [Required]
+        [Display(Name = "Languages")]
+        public int[] LanguageListIds { get; set; }
+
+        public MultiSelectList LanguageList { get; set; }
+
+        public string GitHub { get; set; }
+
+        public string LinkedIn { get; set; }
 
         public string CoreSkills { get; set; }
 

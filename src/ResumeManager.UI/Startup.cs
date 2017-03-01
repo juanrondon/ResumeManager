@@ -43,7 +43,7 @@ namespace ResumeManager.UI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ResumeManagerDbContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -59,6 +59,9 @@ namespace ResumeManager.UI
             }
 
             app.UseStaticFiles();
+
+            //Seed initial data to DB
+            context.Seed();
 
             app.UseMvc(routes =>
             {

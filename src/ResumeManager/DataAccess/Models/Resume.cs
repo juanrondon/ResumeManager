@@ -17,6 +17,8 @@ namespace ResumeManager.DataAccess.Models
         public string Mobile { get; set; }
 
         public string Address { get; set; }
+        public string GitHub { get; set; }
+        public string LinkedIn { get; set; }
 
         public List<ResumeLanguage> ResumeLanguages { get; set; }
         
