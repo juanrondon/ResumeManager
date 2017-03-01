@@ -14,25 +14,32 @@
 input,
 select,
 textarea {
-    max-width: 280px;
-}
-
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+    max-width: 250px;
 }
 
 /* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"]
-{
+.carousel-inner .item img[src$=".svg"] {
     width: 100%;
 }
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
-    display: none
-  }
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+/* -------------- CreateResume -------------- */
+
+#uploadPhoto {
+    margin-top: 10px;
+    width: 180px;
+    margin-left: 20px;
+}
+
+.input-group-addon.success {
+    color: rgb(255, 255, 255);
+    background-color: rgb(92, 184, 92);
+    border-color: rgb(76, 174, 76);
 }

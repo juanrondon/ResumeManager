@@ -1,9 +1,7 @@
 @model ResumeManager.UI.Models.Resume.ResumeCreateViewModel
-
 @{
     ViewData["Title"] = "CreateResume";
 }
-
 <h2>Create Resume</h2>
 
 <form asp-action="CreateResume">
@@ -16,14 +14,32 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                    <i class="fa fa-user" aria-hidden="true"></i> Details
+                                    <i class="fa fa-user" aria-hidden="true"></i> Contact Details
                                 </a>
                             </h4>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse in">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group" id="uploadPhoto">
+                                            <div class="imageupload panel panel-default">
+                                                <div class="panel-heading clearfix">
+                                                    <h3 class="panel-title pull-left"><i class="fa fa-camera" aria-hidden="true"></i> Photo</h3>
+                                                </div>
+                                                <div class="file-tab panel-body">
+                                                    <label class="btn btn-warning btn-file btn-xs">
+                                                        <span>Browse</span>
+
+                                                        <!-- The file is stored here. -->
+                                                        <input type="file" name="image-file">
+                                                    </label>
+                                                    <button type="button" class="btn btn-danger btn-xs">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label asp-for="FirstName" class="control-label"></label>
                                             <input asp-for="FirstName" placeholder="Enter your first name" class="form-control" />
@@ -37,17 +53,18 @@
                                         <div class="form-group">
                                             <label asp-for="Email" class="control-label"></label>
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                                                <span class="input-group-addon success"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
                                                 <input asp-for="Email" placeholder="Enter your email" class="form-control" />
                                             </div>
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label asp-for="Mobile" class="control-label"></label>
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                                                <span class="input-group-addon success"><i class="fa fa-phone" aria-hidden="true"></i></span>
                                                 <input asp-for="Mobile" placeholder="Enter your phone" class="form-control" />
                                             </div>
                                             <span asp-validation-for="Mobile" class="text-danger"></span>
@@ -55,173 +72,174 @@
                                         <div class="form-group">
                                             <label asp-for="Address" class="control-label"></label>
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                                <span class="input-group-addon success"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
                                                 <input asp-for="Address" placeholder="Enter your address" class="form-control" />
                                             </div>
                                             <span asp-validation-for="Address" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                    <i class="fa fa-bullseye" aria-hidden="true"></i> Skills
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label asp-for="CoreSkills" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="CoreSkills" class="form-control" />
-                                        <span asp-validation-for="CoreSkills" class="text-danger"></span>
-                                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                <i class="fa fa-rocket" aria-hidden="true"></i> Skills
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label asp-for="CoreSkills" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="CoreSkills" class="form-control" />
+                                    <span asp-validation-for="CoreSkills" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                                    <span class="glyphicon glyphicon-plus-sign">
-                                    </span> Summary
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <input id="summary" type="hidden" name="Summary">
-                                        <trix-editor placeholder="Please enter a summary of your skills" input="summary"></trix-editor>
-                                        <span asp-validation-for="Summary" class="text-danger"></span>
-                                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                <i class="fa fa-align-center" aria-hidden="true"></i> Summary
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input id="summary" type="hidden" name="Summary">
+                                    <trix-editor placeholder="Please enter a summary of your skills" input="summary"></trix-editor>
+                                    <span asp-validation-for="Summary" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-                                    <span class="glyphicon glyphicon-plus-sign">
-                                    </span> Qualifications
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseFour" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label asp-for="Qualifications" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="Qualifications" class="form-control" />
-                                        <span asp-validation-for="Qualifications" class="text-danger"></span>
-                                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                                <span class="glyphicon glyphicon-plus-sign">
+                                </span> Qualifications
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label asp-for="Qualifications" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Qualifications" class="form-control" />
+                                    <span asp-validation-for="Qualifications" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
-                                    <i class="fa fa-briefcase" aria-hidden="true"></i> Experience
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseFive" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label asp-for="Jobs" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="Jobs" class="form-control" />
-                                        <span asp-validation-for="Jobs" class="text-danger"></span>
-                                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                                <i class="fa fa-briefcase" aria-hidden="true"></i> Experience
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFive" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label asp-for="Jobs" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Jobs" class="form-control" />
+                                    <span asp-validation-for="Jobs" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
-                                    <i class="fa fa-university" aria-hidden="true"></i> Education
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseSix" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label asp-for="Courses" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="Courses" class="form-control" />
-                                        <span asp-validation-for="Courses" class="text-danger"></span>
-                                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+                                <i class="fa fa-university" aria-hidden="true"></i> Education
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSix" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label asp-for="Courses" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Courses" class="form-control" />
+                                    <span asp-validation-for="Courses" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
-                                    <span class="glyphicon glyphicon-tower">
-                                    </span> Interests
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseSeven" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label asp-for="Interests" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="Interests" class="form-control" />
-                                        <span asp-validation-for="Interests" class="text-danger"></span>
-                                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
+                                <span class="glyphicon glyphicon-tower">
+                                </span> Interests
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSeven" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label asp-for="Interests" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Interests" class="form-control" />
+                                    <span asp-validation-for="Interests" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
-                                    <i class="fa fa-handshake-o" aria-hidden="true"></i> References
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseEight" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <input id="references" type="hidden" name="References">
-                                        <trix-editor placeholder="Please enter your references" input="references"></trix-editor>
-                                        <span asp-validation-for="References" class="text-danger"></span>
-                                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
+                                <i class="fa fa-handshake-o" aria-hidden="true"></i> References
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseEight" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input id="references" type="hidden" name="References">
+                                    <trix-editor placeholder="Please enter your references" input="references"></trix-editor>
+                                    <span asp-validation-for="References" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <input type="submit" value="Save" class="btn btn-success" />
                 </div>
             </div>
         </div>
     </div>
+
 </form>
 
 <div>
@@ -230,12 +248,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        (function () {
-            $(document).ready(function () {
-                $.validator.setDefaults({ ignore: '' });
-            });
-        })();
-
-    </script>
+    <script src="~/js/createResume.js"></script>
 }
