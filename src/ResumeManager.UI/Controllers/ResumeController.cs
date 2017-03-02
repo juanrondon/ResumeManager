@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ResumeManager.DataAccess.Models;
 using ResumeManager.Services;
 using ResumeManager.UI.Models.Resume;
@@ -21,14 +22,13 @@ namespace ResumeManager.UI.Controllers
         [HttpGet]
         public IActionResult CreateResume()
         {
-            return View();
+            var model = new ResumeCreateViewModel
+            {
+                LanguageList = new MultiSelectList(_context.Languages.ToList(), "LanguageId", "Name")
+            };
+            return View(model);
         }
 
-        [HttpPost]
-        public IActionResult CreateResume(ResumeCreateViewModel model)
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult GetLanguages()
@@ -40,6 +40,21 @@ namespace ResumeManager.UI.Controllers
             }
             return Ok(result);
         }
+
+        [HttpPost]
+        public void SaveContactDetails(ResumeCreateViewModel model)
+        {
+            
+        }
+
+
+        [HttpGet]
+        public string SaveCoreSkills(ResumeCreateViewModel model)
+        {
+            //model.LanguageList = new MultiSelectList(_context.Languages.ToList(), "LanguageId", "Name", selectedValues);
+            return "Saved";
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> DisplayResume()

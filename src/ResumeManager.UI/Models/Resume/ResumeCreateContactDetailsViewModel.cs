@@ -4,13 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ResumeManager.DataAccess.Models;
 
 namespace ResumeManager.UI.Models.Resume
 {
-    public class ResumeCreateViewModel
+    public class ResumeCreateContactDetailsViewModel
     {
-        public int ResumeId { get; set; }
         [Required(ErrorMessage = "First Name field is required")]
         [Display(Name = "First Name")]
         [DataType(DataType.Text)]
@@ -40,17 +38,5 @@ namespace ResumeManager.UI.Models.Resume
         public string GitHub { get; set; }
 
         public string LinkedIn { get; set; }
-        [Required]
-        public string CoreSkills { get; set; }
-
-        //[Required(ErrorMessage = "Summary field is required")]
-        //public string Summary { get; set; }
-        //[Required]
-        //public string Jobs { get; set; }
-        //public string Qualifications { get; set; }
-        //public string Courses { get; set; }
-        //[Required]
-        //public string Interests { get; set; }
-        //public string References { get; set; }
     }
 }

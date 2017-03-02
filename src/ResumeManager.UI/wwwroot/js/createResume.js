@@ -2,21 +2,11 @@
     $(document).ready(function () {
         $.validator.setDefaults({ ignore: "" });
 
+
+        $("#successAlertContactDetails").hide();
+
         $("#languageList").kendoMultiSelect({
-            placeholder: "Select Languages ...",
-            dataTextField: "name",
-            dataValueField: "languageId",
-            autoBind: false,
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "/resume/GetLanguages",
-                        contentType: "application/json; charset=utf-8",
-                        type: "GET",
-                        dataType: "json"
-                    }
-                }
-            }
+            placeholder: "Select Languages ..."
         });
 
         var validator = $("#content").kendoValidator({
@@ -38,15 +28,6 @@
             }
         }).data("kendoValidator");
 
-        //Validation contact details section
-        $("#contactDetails").click(function () {
-            validator.validate();
-            $("#createResumeFormId").validate().element("#FirstName");
-            $("#createResumeFormId").validate().element("#LastName");
-            $("#createResumeFormId").validate().element("#Email");
-            $("#createResumeFormId").validate().element("#Mobile");
-            $("#createResumeFormId").validate().element("#Address");
-        });
 
         var $imageupload = $(".imageupload");
         $imageupload.imageupload({
@@ -54,6 +35,39 @@
             maxWidth: 150,
             maxHeight: 150,
             maxFileSizeKb: 512
+        });
+
+        //Validation contact details section
+        $("#contactDetails").click(function () {
+            var form = $("#contactDetails").closest("form");
+            var valid = true;
+            valid = validator.validate();
+            valid = $(form).validate();
+            if (!$(form).valid()) {
+                return;
+            } else {
+                $.ajax(
+                {
+                    type: "POST", //HTTP POST Method  
+                    url: "/Resume/SaveContactDetails", // Controller/View   
+                    data: { //Passing data  
+                        FirstName: $("#FirstName").val(), //Reading text box values using Jquery   
+                        LastName: $("#LastName").val(),
+                        Email: $("#Email").val(),
+                        Mobile: $("#Mobile").val(),
+                        Address: $("#Address").val(),
+                        GitHub: $("#GitHub").val(),
+                        LinkedIn: $("#LinkedIn").val(),
+                        LanguageListIds: $("#LanguageListIds").val()
+                    },
+                    success: function () {
+                        $("#successAlertContactDetails").alert();
+                        $("#successAlertContactDetails").fadeTo(3500, 500).slideUp(500, function () {
+                            $("#successAlertContactDetails").slideUp(500);
+                        });
+                    }
+                });
+            }
         });
     });
 })();

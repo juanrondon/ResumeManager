@@ -1,0 +1,14 @@
+@model ResumeManager.UI.Models.Resume.ResumeCreateViewModel
+
+<form asp-action="SaveCoreSkills" id="SaveCoreSkills">
+    <div class="panel-body">
+        <div class="form-group">
+            <label asp-for="@Model.CoreSkills" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="@Model.CoreSkills" class="form-control" />
+                <span asp-validation-for="@Model.CoreSkills" class="text-danger"></span>
+            </div>
+        </div>
+        <input type="button" value="Save" class="btn btn-warning" id="skills" />
+    </div>
+</form>

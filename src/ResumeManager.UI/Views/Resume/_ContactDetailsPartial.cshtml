@@ -1,0 +1,90 @@
+@model ResumeManager.UI.Models.Resume.ResumeCreateViewModel
+
+<form asp-action="SaveContactDetails" id="SaveContactDetails">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group" id="uploadPhoto">
+                    <div class="imageupload panel panel-default">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title pull-left">
+                                <i class="fa fa-camera" aria-hidden="true"></i> Photo
+                            </h3>
+                        </div>
+                        <div class="file-tab panel-body">
+                            <label class="btn btn-warning btn-file btn-xs">
+                                <span>Browse</span>
+
+                                <!-- The file is stored here. -->
+                                <input type="file" name="image-file">
+                            </label>
+                            <button type="button" class="btn btn-danger btn-xs">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.FirstName" class="control-label req"></label>
+                    <input asp-for="@Model.FirstName" placeholder="Enter your first name" class="form-control" />
+                    <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.LastName" class="control-label req"></label>
+                    <input asp-for="@Model.LastName" placeholder="Enter your last name" class="form-control" />
+                    <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Email" class="control-label req"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon success"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                        <input asp-for="@Model.Email" placeholder="Enter your email" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="content">
+                    <label asp-for="@Model.LanguageListIds" class="control-label req"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon success"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                        <select id="languageList" multiple asp-for="@Model.LanguageListIds" asp-items="@Model.LanguageList"></select>
+                    </div>
+                    <span class="k-invalid-msg" data-for="LanguageListIds"></span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.Mobile" class="control-label req"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon success"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                        <input asp-for="@Model.Mobile" placeholder="Enter your phone" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Mobile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Address" class="control-label req"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon success"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                        <input asp-for="@Model.Address" placeholder="Enter your address" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.LinkedIn" class="control-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon success"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                        <input asp-for="@Model.LinkedIn" placeholder="linkedin.com/in/username" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.GitHub" class="control-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon success"><i class="fa fa-github" aria-hidden="true"></i></span>
+                        <input asp-for="@Model.GitHub" placeholder="github.com/username" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="button" value="Save" class="btn btn-warning" id="contactDetails" />
+    </div>
+</form>
