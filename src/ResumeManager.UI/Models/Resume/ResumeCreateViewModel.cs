@@ -16,6 +16,9 @@ namespace ResumeManager.UI.Models.Resume
         [DataType(DataType.Text)]
         public string FirstName { get; set; }
 
+        public string Photo { get; set; }
+        
+
         [Required(ErrorMessage = "Last Name field is required")]
         [Display(Name = "Last Name")]
         [DataType(DataType.Text)]

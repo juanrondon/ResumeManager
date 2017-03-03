@@ -32,12 +32,6 @@ textarea {
 
 /* -------------- CreateResume -------------- */
 
-#uploadPhoto {
-    margin-top: 10px;
-    width: 180px;
-    margin-left: 20px;
-}
-
 /*Colour of the accordion*/
 .panel-default > .panel-heading {
     background-color: #428bca;
@@ -48,3 +42,46 @@ textarea {
     content: " *";
     color: #d9534f;
 }
+
+/*Image upload*/
+
+.btn-danger {
+    background-color: #B73333;
+}
+
+/* File Upload */
+.image-preview-input {
+    position: relative;
+	overflow: hidden;
+	margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}
+.photo {
+    margin-left: 40px;
+    margin-top: 15px;
+}
+.thumbnail.img-preview {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+#clearPhoto {
+    margin-left: 13px;
+}
+

@@ -10,7 +10,5 @@ namespace ResumeManager.DataAccess.Models
         [Required]
         public int LanguageId { get; set; }
         public Language Language { get; set; }
-        [Required]
-        public string Proficiency { get; set; }
     }
 }

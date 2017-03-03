@@ -2,11 +2,27 @@
     $(document).ready(function () {
         $.validator.setDefaults({ ignore: "" });
 
-
         $("#successAlertContactDetails").hide();
 
-        $("#languageList").kendoMultiSelect({
+        $("#LanguageList").kendoMultiSelect({
             placeholder: "Select Languages ..."
+        });
+        //photo js
+        $(".image-preview-input input:file").change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            // Set preview image 
+            reader.onload = function (e) {
+                $(".thumbnail.img-preview").attr("src", e.target.result);
+                $("#uploadedPhoto").attr("val", e.target.result);
+            }
+            reader.readAsDataURL(file);
+        });
+        //Remove profile photo
+        $("#clearPhoto").click(function () {
+            $(".thumbnail.img-preview").attr("src", "/images/user-default.png");
+            $("#uploadedPhoto").val("");
+
         });
 
         var validator = $("#content").kendoValidator({
@@ -29,14 +45,6 @@
         }).data("kendoValidator");
 
 
-        var $imageupload = $(".imageupload");
-        $imageupload.imageupload({
-            allowedFormats: ["jpg", "png"],
-            maxWidth: 150,
-            maxHeight: 150,
-            maxFileSizeKb: 512
-        });
-
         //Validation contact details section
         $("#contactDetails").click(function () {
             var form = $("#contactDetails").closest("form");
@@ -46,24 +54,42 @@
             if (!$(form).valid()) {
                 return;
             } else {
+                var model = {
+                    FirstName: $("#FirstName").val(),
+                    LastName: $("#LastName").val(),
+                    Email: $("#Email").val(),
+                    Mobile: $("#Mobile").val(),
+                    Address: $("#Address").val(),
+                    GitHub: $("#GitHub").val(),
+                    LinkedIn: $("#LinkedIn").val(),
+                    LanguageListIds: $("#LanguageList").val()
+                }
                 $.ajax(
                 {
-                    type: "POST", //HTTP POST Method  
+                    type: "POST", //HTTP POST Method
                     url: "/Resume/SaveContactDetails", // Controller/View   
-                    data: { //Passing data  
-                        FirstName: $("#FirstName").val(), //Reading text box values using Jquery   
-                        LastName: $("#LastName").val(),
-                        Email: $("#Email").val(),
-                        Mobile: $("#Mobile").val(),
-                        Address: $("#Address").val(),
-                        GitHub: $("#GitHub").val(),
-                        LinkedIn: $("#LinkedIn").val(),
-                        LanguageListIds: $("#LanguageListIds").val()
-                    },
+                    data: { model },
                     success: function () {
-                        $("#successAlertContactDetails").alert();
-                        $("#successAlertContactDetails").fadeTo(3500, 500).slideUp(500, function () {
-                            $("#successAlertContactDetails").slideUp(500);
+                        //upload photo
+                        var data = new FormData();
+                        var files = $("#uploadedPhoto").get(0).files;
+                        // Add the uploaded image content to the form data collection
+                        if (files.length > 0) {
+                            data.append("photo", files[0]);
+                        }
+                        $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/Resume/SavePhoto", // Controller/View   
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            success: function () {
+                                $("#successAlertContactDetails").alert();
+                                $("#successAlertContactDetails").fadeTo(3000, 30).slideUp(500, function () {
+                                    $("#successAlertContactDetails").slideUp(500);
+                                });
+                            }
                         });
                     }
                 });

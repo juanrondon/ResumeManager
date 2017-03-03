@@ -8,9 +8,10 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    partial class ResumeManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170302115201_Added Photo property to models")]
+    partial class AddedPhotopropertytomodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -132,10 +133,6 @@ namespace ResumeManager.Migrations
 
                     b.Property<string>("Mobile");
 
-                    b.Property<byte[]>("Photo");
-
-                    b.Property<string>("PhotoFileType");
-
                     b.Property<string>("References");
 
                     b.Property<string>("Summary");
@@ -154,6 +151,9 @@ namespace ResumeManager.Migrations
                     b.Property<int>("ResumeId");
 
                     b.Property<int>("LanguageId");
+
+                    b.Property<string>("Proficiency")
+                        .IsRequired();
 
                     b.HasKey("ResumeId", "LanguageId");
 
@@ -183,6 +183,10 @@ namespace ResumeManager.Migrations
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("Photo");
+
+                    b.Property<string>("PhotoFileType");
 
                     b.Property<string>("Username")
                         .IsRequired();

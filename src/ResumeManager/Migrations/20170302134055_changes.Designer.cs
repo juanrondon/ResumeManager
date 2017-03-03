@@ -8,9 +8,10 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    partial class ResumeManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170302134055_changes")]
+    partial class changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -154,6 +155,9 @@ namespace ResumeManager.Migrations
                     b.Property<int>("ResumeId");
 
                     b.Property<int>("LanguageId");
+
+                    b.Property<string>("Proficiency")
+                        .IsRequired();
 
                     b.HasKey("ResumeId", "LanguageId");
 

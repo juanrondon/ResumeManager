@@ -1,24 +1,24 @@
 @model ResumeManager.UI.Models.Resume.ResumeCreateViewModel
 
-<form asp-action="SaveContactDetails" id="SaveContactDetails">
+<form asp-action="SaveContactDetails" id="SaveContactDetails" enctype="multipart/form-data">
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group" id="uploadPhoto">
-                    <div class="imageupload panel panel-default">
-                        <div class="panel-heading clearfix">
-                            <h3 class="panel-title pull-left">
-                                <i class="fa fa-camera" aria-hidden="true"></i> Photo
-                            </h3>
-                        </div>
-                        <div class="file-tab panel-body">
-                            <label class="btn btn-warning btn-file btn-xs">
-                                <span>Browse</span>
 
-                                <!-- The file is stored here. -->
-                                <input type="file" name="image-file">
-                            </label>
-                            <button type="button" class="btn btn-danger btn-xs">Remove</button>
+
+                <div class="form-group photo">
+                    <img class="thumbnail img-preview" id="photo" src="@Model.Photo" title="Profile Picture" alt="">
+
+                    <div class="input-group-btn">
+                        <!-- image-preview-clear button -->
+                        <button type="button" class="btn btn-default" id="clearPhoto">
+                            <span class="glyphicon glyphicon-remove"></span> Clear
+                        </button>
+                        <!-- image-preview-input -->
+                        <div class="btn btn-default image-preview-input">
+                            <span class="glyphicon glyphicon-folder-open"></span>
+                            <span class="image-preview-input-title">Browse</span>
+                            <input type="file" accept="image/png, image/jpeg" id="uploadedPhoto" />
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     <label asp-for="@Model.LanguageListIds" class="control-label req"></label>
                     <div class="input-group">
                         <span class="input-group-addon success"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                        <select id="languageList" multiple asp-for="@Model.LanguageListIds" asp-items="@Model.LanguageList"></select>
+                        <select id="LanguageList" multiple asp-for="@Model.LanguageListIds" asp-items="@Model.LanguageList"></select>
                     </div>
                     <span class="k-invalid-msg" data-for="LanguageListIds"></span>
                 </div>
