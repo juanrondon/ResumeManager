@@ -1,8 +1,26 @@
 ﻿(function () {
     $(document).ready(function () {
-        $.validator.setDefaults({ ignore: "" });
+        //default settings for the notifications
+        $.notifyDefaults({
+            allow_dismiss: false,
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            animate: {
+                enter: "animated bounceInDown",
+                exit: "animated bounceOutUp"
+            },
+            delay: 800,
+            offset: {
+                y: 100
+            }
+        });
 
-        $("#successAlertContactDetails").hide();
+        $.validator.setDefaults({
+            ignore: ""
+        });
+
 
         $("#LanguageList").kendoMultiSelect({
             placeholder: "Select Languages ..."
@@ -46,11 +64,12 @@
 
 
         //Validation contact details section
+        //and saving the form and the photo if all
+        //fields are correct
         $("#contactDetails").click(function () {
             var form = $("#contactDetails").closest("form");
-            var valid = true;
-            valid = validator.validate();
-            valid = $(form).validate();
+            validator.validate();
+            $(form).validate();
             if (!$(form).valid()) {
                 return;
             } else {
@@ -64,36 +83,48 @@
                     LinkedIn: $("#LinkedIn").val(),
                     LanguageListIds: $("#LanguageList").val()
                 }
-                $.ajax(
-                {
-                    type: "POST", //HTTP POST Method
-                    url: "/Resume/SaveContactDetails", // Controller/View   
-                    data: { model },
-                    success: function () {
-                        //upload photo
+                var saveForm = $.ajax({
+                    type: "POST",
+                    url: "/Resume/SaveContactDetails",
+                    data: {
+                        model
+                    }
+                }),
+                    savePhoto = saveForm.then(function () {
                         var data = new FormData();
                         var files = $("#uploadedPhoto").get(0).files;
                         // Add the uploaded image content to the form data collection
                         if (files.length > 0) {
                             data.append("photo", files[0]);
+                            return $.ajax({
+                                type: "POST",
+                                url: "/Resume/SavePhoto",
+                                contentType: false,
+                                processData: false,
+                                data: data
+                            });
+                        } else {
+                            return null;
                         }
-                        $.ajax(
-                        {
-                            type: "POST", //HTTP POST Method
-                            url: "/Resume/SavePhoto", // Controller/View   
-                            contentType: false,
-                            processData: false,
-                            data: data,
-                            success: function () {
-                                $("#successAlertContactDetails").alert();
-                                $("#successAlertContactDetails").fadeTo(3000, 30).slideUp(500, function () {
-                                    $("#successAlertContactDetails").slideUp(500);
-                                });
-                            }
-                        });
-                    }
+                    });
+
+                savePhoto.done(function () {
+                    $.notify({
+                        icon: "fa fa-check",
+                        title: "<strong>Success: </strong>",
+                        message: "Contact details correctly saved :)"
+                    }, {
+                        type: "success"
+                    });
                 });
             }
+        });
+        //handles the removal of the photo
+        $("#clearPhoto").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Resume/RemovePhoto"
+            });
         });
     });
 })();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +31,7 @@ namespace ResumeManager.Services
 
         public async Task<Resume> SaveContactDetails(SaveContactDetailsCommand command)
         {
-            Resume resume = null;
+            Resume resume;
             if (_context.Resumes.Any(r => r.UserId == 1))
             {
                 resume = _context.Resumes.FirstOrDefault(r => r.UserId == 1);
@@ -68,14 +67,7 @@ namespace ResumeManager.Services
                 }
                 _context.Resumes.Add(resume);
             }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                
-            }
+            await _context.SaveChangesAsync();
             return resume;
         }
 

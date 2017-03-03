@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -77,11 +76,17 @@ namespace ResumeManager.UI.Controllers
             if (Request.Form.Files.Count == 1)
             {
                 var file = Request.Form.Files[0];
-                BinaryReader reader = new BinaryReader(file.OpenReadStream());
+                var reader = new BinaryReader(file.OpenReadStream());
                 bytesImage = reader.ReadBytes((int)file.Length);
                 contentType = file.ContentType;
             }
             _resumeService.SavePhoto(_context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId, bytesImage, contentType);
+        }
+
+        [HttpPost]
+        public void RemovePhoto()
+        {
+            _resumeService.SavePhoto(_context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId, null, null);
         }
 
         [HttpGet]

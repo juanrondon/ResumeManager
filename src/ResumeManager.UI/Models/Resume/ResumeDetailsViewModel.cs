@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ResumeManager.DataAccess.Models;
-
-namespace ResumeManager.UI.Models.Resume
+﻿namespace ResumeManager.UI.Models.Resume
 {
     public class ResumeDetailsViewModel
     {
