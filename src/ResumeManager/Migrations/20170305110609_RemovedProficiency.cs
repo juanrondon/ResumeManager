@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ResumeManager.Migrations
 {
-    public partial class Removedproficiencycolumn : Migration
+    public partial class RemovedProficiency : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

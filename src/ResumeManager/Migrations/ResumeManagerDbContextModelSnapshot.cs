@@ -151,13 +151,17 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
+                    b.Property<int>("ResumeLanguageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired();
+
                     b.Property<int>("ResumeId");
 
-                    b.Property<int>("LanguageId");
+                    b.HasKey("ResumeLanguageId");
 
-                    b.HasKey("ResumeId", "LanguageId");
-
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("ResumeId");
 
                     b.ToTable("ResumeLanguages");
                 });
@@ -223,11 +227,6 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
-                    b.HasOne("ResumeManager.DataAccess.Models.Language", "Language")
-                        .WithMany("ResumeLanguages")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
                         .WithMany("ResumeLanguages")
                         .HasForeignKey("ResumeId")

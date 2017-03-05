@@ -8,6 +8,5 @@ namespace ResumeManager.DataAccess.Models
         public int LanguageId { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<ResumeLanguage> ResumeLanguages { get; set; }
     }
 }

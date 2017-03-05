@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,11 @@ namespace ResumeManager.Services
             if (_context.Resumes.Any(r => r.UserId == 1))
             {
                 resume = _context.Resumes.FirstOrDefault(r => r.UserId == 1);
+                //Update languages
+                var languages = _context.ResumeLanguages.Where(rl => rl.ResumeId == resume.ResumeId);
+                //remove existing
+                _context.ResumeLanguages.RemoveRange(languages);
+                await _context.SaveChangesAsync();
                 resume.Address = command.Address;
                 resume.Email = command.Email;
                 resume.FirstName = command.FirstName;
@@ -54,21 +61,30 @@ namespace ResumeManager.Services
                     LastName = command.LastName,
                     LinkedIn = command.LinkedIn,
                     Mobile = command.Mobile,
-                    UserId = 1 //Todo: Fix this hardcoded value
+                    UserId = 1
                 };
-                foreach (var languageId in command.LanguageListIds)
-                {
-                    var resumeLanguage = new ResumeLanguage()
-                    {
-                        LanguageId = languageId,
-                        Resume = resume
-                    };
-                    _context.ResumeLanguages.Add(resumeLanguage);
-                }
                 _context.Resumes.Add(resume);
             }
+            foreach (var languageId in command.LanguageListIds)
+            {
+                var resumeLanguage = new ResumeLanguage()
+                {
+                    LanguageName = _context.Languages.FirstOrDefault(l => l.LanguageId == languageId).Name,
+                    Resume = resume
+                };
+                _context.ResumeLanguages.Add(resumeLanguage);
+            }
+
             await _context.SaveChangesAsync();
+
             return resume;
+        }
+
+        public async Task<List<int>> GetLanguageIds(int resumeId)
+        {
+            var languageNames = _context.ResumeLanguages.Where(x => x.ResumeId == resumeId).Select(x => x.LanguageName);
+            var languageIds = await _context.Languages.Where(l => languageNames.Contains(l.Name)).Select(c => c.LanguageId).ToListAsync();
+            return languageIds;
         }
 
         public void SavePhoto(int resumeId, byte[] photo, string fileType)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -43,9 +44,13 @@ namespace ResumeManager.Migrations
                     Address = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
+                    GitHub = table.Column<string>(nullable: true),
                     Interests = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    LinkedIn = table.Column<string>(nullable: true),
                     Mobile = table.Column<string>(nullable: true),
+                    Photo = table.Column<byte[]>(nullable: true),
+                    PhotoFileType = table.Column<string>(nullable: true),
                     References = table.Column<string>(nullable: true),
                     Summary = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
@@ -138,19 +143,15 @@ namespace ResumeManager.Migrations
                 name: "ResumeLanguages",
                 columns: table => new
                 {
-                    ResumeId = table.Column<int>(nullable: false),
-                    LanguageId = table.Column<int>(nullable: false),
-                    Proficiency = table.Column<string>(nullable: false)
+                    ResumeLanguageId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LanguageName = table.Column<string>(nullable: false),
+                    Proficiency = table.Column<string>(nullable: false),
+                    ResumeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResumeLanguages", x => new { x.ResumeId, x.LanguageId });
-                    table.ForeignKey(
-                        name: "FK_ResumeLanguages_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "LanguageId",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_ResumeLanguages", x => x.ResumeLanguageId);
                     table.ForeignKey(
                         name: "FK_ResumeLanguages_Resumes_ResumeId",
                         column: x => x.ResumeId,
@@ -200,9 +201,9 @@ namespace ResumeManager.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResumeLanguages_LanguageId",
+                name: "IX_ResumeLanguages_ResumeId",
                 table: "ResumeLanguages",
-                column: "LanguageId");
+                column: "ResumeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Skills_ResumeId",
@@ -219,6 +220,9 @@ namespace ResumeManager.Migrations
                 name: "Jobs");
 
             migrationBuilder.DropTable(
+                name: "Languages");
+
+            migrationBuilder.DropTable(
                 name: "Qualifications");
 
             migrationBuilder.DropTable(
@@ -226,9 +230,6 @@ namespace ResumeManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "Skills");
-
-            migrationBuilder.DropTable(
-                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Resumes");

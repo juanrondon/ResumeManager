@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using ResumeManager.Commands.Resume;
 using ResumeManager.DataAccess.Models;
 using ResumeManager.Services;
@@ -24,20 +23,25 @@ namespace ResumeManager.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateResume()
+        public async Task<IActionResult> CreateResume()
         {
             var model = new ResumeCreateViewModel
             {
                 LanguageList = new MultiSelectList(_context.Languages.OrderBy(l => l.Name).ToList(), "LanguageId", "Name")
             };
-            var resume = _context.Resumes.Include(r => r.ResumeLanguages).FirstOrDefault(r => r.UserId == 1);
-            if (resume == null) return View(model);
+            var resume = await _resumeService.GetResumeByUserId(userId: 1);
+            if (resume == null)
+            {
+                model.Photo = "/images/user-default.png";
+                return View(model);
+            }
+            //POpulating info from exisitng resume
             model.Address = resume.Address;
             model.Email = resume.Email;
             model.FirstName = resume.FirstName;
             model.Mobile = resume.Mobile;
             model.LastName = resume.LastName;
-            model.LanguageListIds = resume.ResumeLanguages.Select(rl => rl.LanguageId).ToList();
+            model.LanguageListIds = await _resumeService.GetLanguageIds(resumeId: resume.ResumeId);
             if (resume.Photo != null)
             {
                 var imageBase64 = Convert.ToBase64String(resume.Photo);
@@ -45,7 +49,7 @@ namespace ResumeManager.UI.Controllers
             }
             else
             {
-                model.Photo = "/images/user-default.png";
+                model.Photo = "~/images/user-default.png";
             }
             return View(model);
         }
@@ -80,19 +84,25 @@ namespace ResumeManager.UI.Controllers
                 bytesImage = reader.ReadBytes((int)file.Length);
                 contentType = file.ContentType;
             }
-            _resumeService.SavePhoto(_context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId, bytesImage, contentType);
+            _resumeService.SavePhoto(
+                resumeId: _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId,
+                photo: bytesImage,
+                fileType: contentType);
         }
 
         [HttpPost]
         public void RemovePhoto()
         {
-            _resumeService.SavePhoto(_context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId, null, null);
+            _resumeService.SavePhoto(
+                resumeId: _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId,
+                photo: null,
+                fileType: null);
         }
 
         [HttpGet]
         public string SaveCoreSkills(ResumeCreateViewModel model)
         {
-            //model.LanguageList = new MultiSelectList(_context.Languages.ToList(), "LanguageId", "Name", selectedValues);
+            //model.LanguageList = new MultiSelectList(_context.Languages.ToList(), "ResumeLanguageId", "Name", selectedValues);
             return "Saved";
         }
 

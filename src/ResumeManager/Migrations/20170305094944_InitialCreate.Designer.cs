@@ -8,8 +8,8 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    [Migration("20170302211029_Removed proficiency column")]
-    partial class Removedproficiencycolumn
+    [Migration("20170305094944_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,13 +152,20 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
+                    b.Property<int>("ResumeLanguageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired();
+
+                    b.Property<string>("Proficiency")
+                        .IsRequired();
+
                     b.Property<int>("ResumeId");
 
-                    b.Property<int>("LanguageId");
+                    b.HasKey("ResumeLanguageId");
 
-                    b.HasKey("ResumeId", "LanguageId");
-
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("ResumeId");
 
                     b.ToTable("ResumeLanguages");
                 });
@@ -224,11 +231,6 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
-                    b.HasOne("ResumeManager.DataAccess.Models.Language", "Language")
-                        .WithMany("ResumeLanguages")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
                         .WithMany("ResumeLanguages")
                         .HasForeignKey("ResumeId")

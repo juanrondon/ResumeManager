@@ -16,11 +16,6 @@ namespace ResumeManager.DataAccess.Models
 
         public ResumeManagerDbContext(DbContextOptions<ResumeManagerDbContext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ResumeLanguage>()
-            .HasKey(c => new { c.ResumeId, c.LanguageId });
-        }
         //Seedsomeinitialdata
         public void Seed()
         {
@@ -101,7 +96,7 @@ namespace ResumeManager.DataAccess.Models
             };
             if (Languages != null && !Languages.Any())
             {
-                foreach (string language in languages)
+                foreach (var language in languages)
                 {
                     Languages.Add(new Language()
                     {

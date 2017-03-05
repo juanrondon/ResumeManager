@@ -8,8 +8,8 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    [Migration("20170302115201_Added Photo property to models")]
-    partial class AddedPhotopropertytomodels
+    [Migration("20170305110609_RemovedProficiency")]
+    partial class RemovedProficiency
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,6 +133,10 @@ namespace ResumeManager.Migrations
 
                     b.Property<string>("Mobile");
 
+                    b.Property<byte[]>("Photo");
+
+                    b.Property<string>("PhotoFileType");
+
                     b.Property<string>("References");
 
                     b.Property<string>("Summary");
@@ -148,16 +152,17 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
-                    b.Property<int>("ResumeId");
+                    b.Property<int>("ResumeLanguageId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LanguageId");
-
-                    b.Property<string>("Proficiency")
+                    b.Property<string>("LanguageName")
                         .IsRequired();
 
-                    b.HasKey("ResumeId", "LanguageId");
+                    b.Property<int>("ResumeId");
 
-                    b.HasIndex("LanguageId");
+                    b.HasKey("ResumeLanguageId");
+
+                    b.HasIndex("ResumeId");
 
                     b.ToTable("ResumeLanguages");
                 });
@@ -183,10 +188,6 @@ namespace ResumeManager.Migrations
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<byte[]>("Photo");
-
-                    b.Property<string>("PhotoFileType");
 
                     b.Property<string>("Username")
                         .IsRequired();
@@ -227,11 +228,6 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
-                    b.HasOne("ResumeManager.DataAccess.Models.Language", "Language")
-                        .WithMany("ResumeLanguages")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
                         .WithMany("ResumeLanguages")
                         .HasForeignKey("ResumeId")

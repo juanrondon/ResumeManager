@@ -30,17 +30,20 @@
             var file = this.files[0];
             var reader = new FileReader();
             // Set preview image 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 $(".thumbnail.img-preview").attr("src", e.target.result);
                 $("#uploadedPhoto").attr("val", e.target.result);
-            }
+            };
             reader.readAsDataURL(file);
         });
         //Remove profile photo
         $("#clearPhoto").click(function () {
             $(".thumbnail.img-preview").attr("src", "/images/user-default.png");
             $("#uploadedPhoto").val("");
-
+            $.ajax({
+                type: "POST",
+                url: "/Resume/RemovePhoto"
+            });
         });
 
         var validator = $("#content").kendoValidator({
@@ -67,10 +70,10 @@
         //and saving the form and the photo if all
         //fields are correct
         $("#contactDetails").click(function () {
-            var form = $("#contactDetails").closest("form");
-            validator.validate();
+            var form = this.closest("form");
+            var result = validator.validate();
             $(form).validate();
-            if (!$(form).valid()) {
+            if (!$(form).valid() || !result) {
                 return;
             } else {
                 var model = {
@@ -82,7 +85,7 @@
                     GitHub: $("#GitHub").val(),
                     LinkedIn: $("#LinkedIn").val(),
                     LanguageListIds: $("#LanguageList").val()
-                }
+                };
                 var saveForm = $.ajax({
                     type: "POST",
                     url: "/Resume/SaveContactDetails",
@@ -118,13 +121,6 @@
                     });
                 });
             }
-        });
-        //handles the removal of the photo
-        $("#clearPhoto").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Resume/RemovePhoto"
-            });
         });
     });
 })();
