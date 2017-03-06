@@ -1,4 +1,5 @@
-﻿(function () {
+﻿
+(function () {
     $(document).ready(function () {
         //default settings for the notifications
         $.notifyDefaults({
@@ -30,7 +31,7 @@
             var file = this.files[0];
             var reader = new FileReader();
             // Set preview image 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $(".thumbnail.img-preview").attr("src", e.target.result);
                 $("#uploadedPhoto").attr("val", e.target.result);
             };

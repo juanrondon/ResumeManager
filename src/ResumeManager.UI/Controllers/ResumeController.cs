@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,6 +53,22 @@ namespace ResumeManager.UI.Controllers
                 model.Photo = "~/images/user-default.png";
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult GetSkills()
+        {
+            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId;
+            var skillsList = _context.ResumeSkills.Where(rs => rs.ResumeId == resumeId).OrderBy(s=>s.skillName).Select(rs=>rs.skillName);
+            var list = skillsList.Select(s => new {Name = s}).ToList();
+            return Json(list);
+        }
+
+        [HttpPost]
+        public async Task AddSkill(string skill)
+        {
+            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId;
+            await _resumeService.AddSkill(resumeId: resumeId, skill: skill);
         }
 
         [HttpPost]

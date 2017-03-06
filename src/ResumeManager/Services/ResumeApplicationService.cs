@@ -95,5 +95,25 @@ namespace ResumeManager.Services
             _context.Update(resume);
             _context.SaveChanges();
         }
+
+        public async Task AddSkill(int resumeId, string skill)
+        {
+            var resumeSkill = new ResumeSkill
+            {
+                ResumeId = resumeId,
+                skillName = skill
+            };
+            _context.ResumeSkills.Add(resumeSkill);
+            
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
     }
 }

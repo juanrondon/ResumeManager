@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ResumeManager.DataAccess.Models;
 
 namespace ResumeManager.UI.Models.Resume
 {
@@ -40,6 +41,7 @@ namespace ResumeManager.UI.Models.Resume
 
         public string LinkedIn { get; set; }
         [Required]
+        [Display(Name = "Skill")]
         public string CoreSkills { get; set; }
 
         //[Required(ErrorMessage = "Summary field is required")]

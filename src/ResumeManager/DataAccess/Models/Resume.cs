@@ -23,7 +23,7 @@ namespace ResumeManager.DataAccess.Models
         public List<ResumeLanguage> ResumeLanguages { get; set; }
 
         //Skills
-        public List<Skill> CoreSkills { get; set; }
+        public List<ResumeSkill> Skills { get; set; }
 
         public string Summary { get; set; }
 
