@@ -1,6 +1,14 @@
 ﻿
 (function () {
     $(document).ready(function () {
+        //disable tabs
+        $('a[data-toggle="tab"]').on('click', function () {
+            if ($(this).parent('li').hasClass('disabled')) {
+                return false;
+            };
+        });
+
+
         //default settings for the notifications
         $.notifyDefaults({
             allow_dismiss: false,
@@ -67,6 +75,11 @@
         }).data("kendoValidator");
 
 
+        function activaTab(tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        };
+
+
         //Validation contact details section
         //and saving the form and the photo if all
         //fields are correct
@@ -120,6 +133,7 @@
                     }, {
                         type: "success"
                     });
+                    activaTab("Skills");
                 });
             }
         });

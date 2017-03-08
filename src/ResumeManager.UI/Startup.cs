@@ -54,6 +54,26 @@ namespace ResumeManager.UI
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //Identity Server
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies"
+            });
+
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            {
+                AuthenticationScheme = "oidc",
+                SignInScheme = "Cookies",
+                Authority = "http://localhost:5000",
+                RequireHttpsMetadata = false,
+                ClientId = "ResumeManagerApp",
+                ClientSecret = "secret",
+                ResponseType = "id_token",
+                GetClaimsFromUserInfoEndpoint = true,
+                SaveTokens = true,
+                Scope = { "UserInfo" }
+            });
+
             app.UseStaticFiles();
 
             //Seed initial data to DB

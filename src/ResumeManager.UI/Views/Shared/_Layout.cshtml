@@ -38,18 +38,45 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            @*@if (User.Identity.IsAuthenticated)
+                            {
+                                @User.Claims.FirstOrDefault(c => c.Type == "Name").Value.ToLower()
+                            }
+                            else
+                            {
+                                <span>Not Logged in</span>
+                            }*@
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="dropdown-item" asp-host="localhost:5000" asp-controller="account" asp-action="register" asp-route-returnUrl="http://localhost:5002">Register</a>
+                                <a class="dropdown-item" asp-host="localhost:5000" asp-controller="account" asp-action="login" asp-route-returnUrl="http://localhost:5002">Login</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" asp-controller="User" asp-action="UpdateProfile">Update Profile</a>
+                                <a class="dropdown-item" asp-controller="User" asp-action="LogOut">Logout</a>
+                            }
+                        </div>
+                    </li>
+                </ul>               
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - Resume Manager</p>
-        </footer>
-    </div>
 
+    </div>
+    <footer class="navbar-inverse">
+        <p>&copy; 2017 - Resume Manager</p>
+    </footer>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

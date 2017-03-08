@@ -8,7 +8,22 @@
 
 
 <div class="container">
-    <div class="row">
+    <ul class="nav nav-tabs">
+        <li id="ContactTab" class="active"><a data-toggle="tab" href="#ContactDetails"><i class="fa fa-user" aria-hidden="true"></i> Contact Details</a></li>
+        <li id="skillsTab" class="disabled"><a data-toggle="tab" href="#Skills"><i class="fa fa-rocket" aria-hidden="true"></i> Skills</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="ContactDetails" class="tab-pane fade in active">
+            @Html.Partial("~/Views/Resume/_ContactDetailsPartial.cshtml", Model)
+        </div>
+        <div id="Skills"  class="tab-pane fade">
+            @Html.Partial("~/Views/Resume/_SkillsPartial.cshtml", Model)
+        </div>
+    </div>
+</div>
+
+
+@*<div class="row">
         <div class="col-md-12">
             <div class="panel-group" id="accordion">
                 <div class="panel panel-default">
@@ -167,11 +182,11 @@
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Confirm and finalize" class="btn btn-warning" />
-                    </div>*@
+                    </div>
             </div>
         </div>
     </div>
-</div>
+    </div>*@
 
 <div>
     @*<a asp-action="Index">Back to List</a>*@

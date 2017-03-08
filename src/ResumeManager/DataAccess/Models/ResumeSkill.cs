@@ -13,6 +13,6 @@ namespace ResumeManager.DataAccess.Models
         public int ResumeId { get; set; }
         public Resume Resume { get; set; }
         [Required]
-        public string skillName { get; set; }
+        public string SkillName { get; set; }
     }
 }

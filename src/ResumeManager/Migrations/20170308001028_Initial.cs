@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ResumeManager.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,12 +23,25 @@ namespace ResumeManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    SkillId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.SkillId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(nullable: false)
+                    Email = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,15 +156,13 @@ namespace ResumeManager.Migrations
                 name: "ResumeLanguages",
                 columns: table => new
                 {
-                    ResumeLanguageId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ResumeId = table.Column<int>(nullable: false),
                     LanguageName = table.Column<string>(nullable: false),
-                    Proficiency = table.Column<string>(nullable: false),
-                    ResumeId = table.Column<int>(nullable: false)
+                    ResumeLanguageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResumeLanguages", x => x.ResumeLanguageId);
+                    table.PrimaryKey("PK_ResumeLanguages", x => new { x.ResumeId, x.LanguageName });
                     table.ForeignKey(
                         name: "FK_ResumeLanguages_Resumes_ResumeId",
                         column: x => x.ResumeId,
@@ -161,23 +172,22 @@ namespace ResumeManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Skills",
+                name: "ResumeSkills",
                 columns: table => new
                 {
-                    SkillId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    ResumeId = table.Column<int>(nullable: true)
+                    ResumeId = table.Column<int>(nullable: false),
+                    SkillName = table.Column<string>(nullable: false),
+                    ResumeSkillId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skills", x => x.SkillId);
+                    table.PrimaryKey("PK_ResumeSkills", x => new { x.ResumeId, x.SkillName });
                     table.ForeignKey(
-                        name: "FK_Skills_Resumes_ResumeId",
+                        name: "FK_ResumeSkills_Resumes_ResumeId",
                         column: x => x.ResumeId,
                         principalTable: "Resumes",
                         principalColumn: "ResumeId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -199,16 +209,6 @@ namespace ResumeManager.Migrations
                 name: "IX_Resumes_UserId",
                 table: "Resumes",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResumeLanguages_ResumeId",
-                table: "ResumeLanguages",
-                column: "ResumeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Skills_ResumeId",
-                table: "Skills",
-                column: "ResumeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -227,6 +227,9 @@ namespace ResumeManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "ResumeLanguages");
+
+            migrationBuilder.DropTable(
+                name: "ResumeSkills");
 
             migrationBuilder.DropTable(
                 name: "Skills");

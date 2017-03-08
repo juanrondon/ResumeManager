@@ -14,7 +14,7 @@
 input,
 select,
 textarea {
-    max-width: 250px;
+    max-width: 500px;
 }
 
 /* Make .svg files in the carousel display properly in older browsers */
@@ -30,12 +30,29 @@ textarea {
     }
 }
 
+
+/*sticky footer */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 50px;
+}
 /* -------------- CreateResume -------------- */
 
-/*Colour of the accordion*/
-.panel-default > .panel-heading {
-    background-color: #428bca;
-    color: white;
+#ContactDetailsForm, #SkillsForm {
+    margin-top: 40px;
 }
 
 .req:after {
@@ -89,14 +106,35 @@ textarea {
     margin-left: 13px;
 }
 
-#content-placeholder {
-    margin-top: 20px;
+#skillLbl {
+    margin-right: 10px;
 }
 
-#content-placeholder table {
+#content-placeholder td {
     border: none;
-    margin: auto;
-    width: 650px;
+    text-align: left;
+}
+
+.k-autocomplete {
+    width: 400px;
+    vertical-align: middle;
+}
+
+.iconRemove {
+    padding: 8px;
+}
+
+.hov {
+    max-width: 550px;
+    font-size: large;
+}
+
+.icon {
+    text-align: right;
+}
+
+.hov:hover {
+    background-color: #f2f2f2;
 }
 
 /*Animations for the notifications*/

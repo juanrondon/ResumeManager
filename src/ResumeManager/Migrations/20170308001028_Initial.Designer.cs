@@ -8,13 +8,13 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    [Migration("20170305094944_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20170308001028_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Course", b =>
@@ -152,22 +152,28 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
-                    b.Property<int>("ResumeLanguageId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("LanguageName")
-                        .IsRequired();
-
-                    b.Property<string>("Proficiency")
-                        .IsRequired();
-
                     b.Property<int>("ResumeId");
 
-                    b.HasKey("ResumeLanguageId");
+                    b.Property<string>("LanguageName");
 
-                    b.HasIndex("ResumeId");
+                    b.Property<int>("ResumeLanguageId");
+
+                    b.HasKey("ResumeId", "LanguageName");
 
                     b.ToTable("ResumeLanguages");
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeSkill", b =>
+                {
+                    b.Property<int>("ResumeId");
+
+                    b.Property<string>("SkillName");
+
+                    b.Property<int>("ResumeSkillId");
+
+                    b.HasKey("ResumeId", "SkillName");
+
+                    b.ToTable("ResumeSkills");
                 });
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Skill", b =>
@@ -178,11 +184,7 @@ namespace ResumeManager.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("ResumeId");
-
                     b.HasKey("SkillId");
-
-                    b.HasIndex("ResumeId");
 
                     b.ToTable("Skills");
                 });
@@ -192,7 +194,7 @@ namespace ResumeManager.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Email")
                         .IsRequired();
 
                     b.HasKey("UserId");
@@ -237,11 +239,12 @@ namespace ResumeManager.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Skill", b =>
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeSkill", b =>
                 {
-                    b.HasOne("ResumeManager.DataAccess.Models.Resume")
-                        .WithMany("CoreSkills")
-                        .HasForeignKey("ResumeId");
+                    b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
+                        .WithMany("Skills")
+                        .HasForeignKey("ResumeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

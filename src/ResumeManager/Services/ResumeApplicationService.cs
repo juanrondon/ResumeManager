@@ -98,22 +98,25 @@ namespace ResumeManager.Services
 
         public async Task AddSkill(int resumeId, string skill)
         {
+            var found = _context.ResumeSkills.Any(re => re.ResumeId == resumeId && re.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
+            if (found)
+            {
+                throw new InvalidOperationException("Skill already exists");
+            }
             var resumeSkill = new ResumeSkill
             {
                 ResumeId = resumeId,
-                skillName = skill
+                SkillName = skill
             };
             _context.ResumeSkills.Add(resumeSkill);
-            
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
+            await _context.SaveChangesAsync();
+        }
 
-                throw;
-            }
+        public async Task RemoveSkill(int resumeId, string skill)
+        {
+            var toRemove = _context.ResumeSkills.FirstOrDefault(rs => rs.SkillName == skill && rs.ResumeId == resumeId);
+            _context.ResumeSkills.Remove(toRemove);
+            await _context.SaveChangesAsync();
         }
     }
 }

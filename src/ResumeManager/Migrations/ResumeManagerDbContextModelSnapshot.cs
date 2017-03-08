@@ -13,7 +13,7 @@ namespace ResumeManager.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Course", b =>
@@ -151,34 +151,26 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
                 {
-                    b.Property<int>("ResumeLanguageId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("LanguageName")
-                        .IsRequired();
-
                     b.Property<int>("ResumeId");
 
-                    b.HasKey("ResumeLanguageId");
+                    b.Property<string>("LanguageName");
 
-                    b.HasIndex("ResumeId");
+                    b.Property<int>("ResumeLanguageId");
+
+                    b.HasKey("ResumeId", "LanguageName");
 
                     b.ToTable("ResumeLanguages");
                 });
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeSkill", b =>
                 {
-                    b.Property<int>("ResumeSkillId")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("ResumeId");
 
-                    b.Property<string>("skillName")
-                        .IsRequired();
+                    b.Property<string>("SkillName");
 
-                    b.HasKey("ResumeSkillId");
+                    b.Property<int>("ResumeSkillId");
 
-                    b.HasIndex("ResumeId");
+                    b.HasKey("ResumeId", "SkillName");
 
                     b.ToTable("ResumeSkills");
                 });
@@ -201,7 +193,7 @@ namespace ResumeManager.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Email")
                         .IsRequired();
 
                     b.HasKey("UserId");

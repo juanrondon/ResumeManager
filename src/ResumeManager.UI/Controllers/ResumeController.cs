@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,14 +9,16 @@ using ResumeManager.Commands.Resume;
 using ResumeManager.DataAccess.Models;
 using ResumeManager.Services;
 using ResumeManager.UI.Models.Resume;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ResumeManager.UI.Controllers
 {
+    [Authorize]
     public class ResumeController : Controller
     {
         private readonly ResumeManagerDbContext _context;
         private readonly ResumeApplicationService _resumeService;
-
+        
         public ResumeController(ResumeManagerDbContext context, ResumeApplicationService resumeService)
         {
             _context = context;
@@ -26,17 +28,22 @@ namespace ResumeManager.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateResume()
         {
+
+            var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
+            var userId = _context.Users.FirstOrDefault(us => us.Email == email).UserId;
+
+
             var model = new ResumeCreateViewModel
             {
                 LanguageList = new MultiSelectList(_context.Languages.OrderBy(l => l.Name).ToList(), "LanguageId", "Name")
             };
-            var resume = await _resumeService.GetResumeByUserId(userId: 1);
+            var resume = await _resumeService.GetResumeByUserId(userId);
             if (resume == null)
             {
                 model.Photo = "/images/user-default.png";
                 return View(model);
             }
-            //POpulating info from exisitng resume
+            //Populating info from exisitng resume
             model.Address = resume.Address;
             model.Email = resume.Email;
             model.FirstName = resume.FirstName;
@@ -58,17 +65,37 @@ namespace ResumeManager.UI.Controllers
         [HttpGet]
         public IActionResult GetSkills()
         {
-            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId;
-            var skillsList = _context.ResumeSkills.Where(rs => rs.ResumeId == resumeId).OrderBy(s=>s.skillName).Select(rs=>rs.skillName);
-            var list = skillsList.Select(s => new {Name = s}).ToList();
-            return Json(list);
+            var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
+            var userId = _context.Users.FirstOrDefault(us => us.Email == email).UserId;
+            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == userId).ResumeId;
+            var skillsList = _context.ResumeSkills.Where(rs => rs.ResumeId == resumeId).OrderBy(s => s.SkillName).Select(rs => rs.SkillName);
+            var list = skillsList.Select(s => new { Name = s }).ToList();
+            return Ok(list);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSkills()
+        {
+            var skillsList = _context.Skills.OrderBy(s => s.Name).Select(s => s.Name);
+            return Ok(skillsList);
         }
 
         [HttpPost]
         public async Task AddSkill(string skill)
         {
-            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId;
+            var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
+            var userId = _context.Users.FirstOrDefault(us => us.Email == email).UserId;
+            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == userId).ResumeId;
             await _resumeService.AddSkill(resumeId: resumeId, skill: skill);
+        }
+
+        [HttpPost]
+        public async Task RemoveSkill(string skill)
+        {
+            var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
+            var userId = _context.Users.FirstOrDefault(us => us.Email == email).UserId;
+            var resumeId = _context.Resumes.FirstOrDefault(r => r.UserId == userId).ResumeId;
+            await _resumeService.RemoveSkill(resumeId: resumeId, skill: skill);
         }
 
         [HttpPost]
@@ -92,6 +119,8 @@ namespace ResumeManager.UI.Controllers
         [HttpPost]
         public void SavePhoto()
         {
+            var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
+            var userId = _context.Users.FirstOrDefault(us => us.Email == email).UserId;
             byte[] bytesImage = null;
             string contentType = null;
             if (Request.Form.Files.Count == 1)
@@ -102,7 +131,7 @@ namespace ResumeManager.UI.Controllers
                 contentType = file.ContentType;
             }
             _resumeService.SavePhoto(
-                resumeId: _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId,
+                resumeId: _context.Resumes.FirstOrDefault(r => r.UserId == userId).ResumeId,
                 photo: bytesImage,
                 fileType: contentType);
         }
@@ -110,34 +139,12 @@ namespace ResumeManager.UI.Controllers
         [HttpPost]
         public void RemovePhoto()
         {
+            var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value; ;
+            var userId = _context.Users.FirstOrDefault(us => us.Email == email).UserId;
             _resumeService.SavePhoto(
-                resumeId: _context.Resumes.FirstOrDefault(r => r.UserId == 1).ResumeId,
+                resumeId: _context.Resumes.FirstOrDefault(r => r.UserId == userId).ResumeId,
                 photo: null,
                 fileType: null);
         }
-
-        [HttpGet]
-        public string SaveCoreSkills(ResumeCreateViewModel model)
-        {
-            //model.LanguageList = new MultiSelectList(_context.Languages.ToList(), "ResumeLanguageId", "Name", selectedValues);
-            return "Saved";
-        }
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> DisplayResume()
-        //{
-        //    int userId = 1; //TODO remove hardcoded ID
-        //    var resume = await _resumeService.GetResumeByUserId(userId);
-        //    var mod = new ResumeDetailsViewModel()
-        //    {
-        //        FullName = resume.FirstName + " " + resume.LastName,
-        //        Email = resume.Email,
-        //        Languages = resume.ResumeLanguages,
-        //        Mobile = resume.Mobile,
-        //        Summary = resume.Summary
-        //    };
-        //    return View(mod);
-        //}
     }
 }
