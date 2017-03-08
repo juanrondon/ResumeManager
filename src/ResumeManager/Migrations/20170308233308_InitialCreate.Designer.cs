@@ -8,8 +8,8 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    [Migration("20170308090259_Modified resumeId in ResumeDraft table")]
-    partial class ModifiedresumeIdinResumeDrafttable
+    [Migration("20170308233308_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -307,17 +307,13 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftSkill", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("ResumeDraftId");
 
-                    b.Property<string>("SkillName")
-                        .IsRequired();
+                    b.Property<string>("SkillName");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Id");
 
-                    b.HasIndex("ResumeDraftId");
+                    b.HasKey("ResumeDraftId", "SkillName");
 
                     b.ToTable("ResumeDraftSkills");
                 });

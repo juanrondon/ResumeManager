@@ -30,7 +30,15 @@ textarea {
     }
 }
 
+img {
+    border: 0;
+}
 
+#navbar-brand-img {
+    margin-right: 8px;
+    margin-top: -10px;
+    float: left;
+}
 /*sticky footer */
 html {
     position: relative;

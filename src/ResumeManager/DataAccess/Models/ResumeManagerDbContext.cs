@@ -27,13 +27,16 @@ namespace ResumeManager.DataAccess.Models
             modelBuilder.Entity<ResumeSkill>()
                 .HasKey(c => new { c.ResumeId, c.SkillName });
 
+            modelBuilder.Entity<ResumeDraftSkill>()
+                .HasKey(c => new { c.ResumeDraftId, c.SkillName });
+
             modelBuilder.Entity<ResumeLanguage>()
-                .HasKey(c => new { c.ResumeId, c.LanguageName });
+                .HasKey(c => new { c.ResumeId, c.LanguageName });           
 
             modelBuilder.Entity<User>()
                .HasMany(c => c.ResumeDrafts)
                .WithOne(m => m.User)
-               .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);            
+               .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
         }
-    }      
+    }
 }

@@ -27,5 +27,11 @@ namespace ResumeManager.UI.Controllers
 
             return RedirectToAction("Index", "ResumeDraft");
         }
+
+        public async Task Logout()
+        {
+            await HttpContext.Authentication.SignOutAsync("Cookies");
+            await HttpContext.Authentication.SignOutAsync("oidc");
+        }
     }
 }

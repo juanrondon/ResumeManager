@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ResumeManager.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -173,7 +173,7 @@ namespace ResumeManager.Migrations
                     Photo = table.Column<byte[]>(nullable: true),
                     PhotoFileType = table.Column<string>(nullable: true),
                     References = table.Column<string>(nullable: true),
-                    ResumeId = table.Column<int>(nullable: false),
+                    ResumeId = table.Column<int>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
@@ -185,7 +185,7 @@ namespace ResumeManager.Migrations
                         column: x => x.ResumeId,
                         principalTable: "Resumes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ResumeDrafts_Users_UserId",
                         column: x => x.UserId,
@@ -329,14 +329,13 @@ namespace ResumeManager.Migrations
                 name: "ResumeDraftSkills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ResumeDraftId = table.Column<int>(nullable: false),
-                    SkillName = table.Column<string>(nullable: false)
+                    SkillName = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResumeDraftSkills", x => x.Id);
+                    table.PrimaryKey("PK_ResumeDraftSkills", x => new { x.ResumeDraftId, x.SkillName });
                     table.ForeignKey(
                         name: "FK_ResumeDraftSkills_ResumeDrafts_ResumeDraftId",
                         column: x => x.ResumeDraftId,
@@ -393,11 +392,6 @@ namespace ResumeManager.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ResumeDraftLanguages_ResumeDraftId",
                 table: "ResumeDraftLanguages",
-                column: "ResumeDraftId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResumeDraftSkills_ResumeDraftId",
-                table: "ResumeDraftSkills",
                 column: "ResumeDraftId");
         }
 

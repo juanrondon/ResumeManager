@@ -68,7 +68,7 @@ namespace ResumeManager.UI.Controllers
                 {
                     var imageBase64 = Convert.ToBase64String(existingResumeDraft.Photo);
                     draft.ProfilePhotoBase64 = string.Format("data:{0};base64,{1}", existingResumeDraft.PhotoFileType, imageBase64);
-                }               
+                }
                 return View(draft);
             }
             var email = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
@@ -129,9 +129,47 @@ namespace ResumeManager.UI.Controllers
         }
 
         [HttpPost]
-        public async Task RemovePhoto(int resumeId)
+        public async Task RemovePhoto(int resumeDraftId)
         {
-            await _resumeDraftService.DeleteProfilePhoto(resumeId);
+            await _resumeDraftService.DeleteProfilePhoto(resumeDraftId);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSkills(int resumeDraftId)
+        {
+            var list = await _resumeDraftService.GetSkills(resumeDraftId);
+            return Ok(list);
+        }
+
+        [HttpPost]
+        public async Task RemoveSkill(int resumeDraftId, string skill)
+        {
+            await _resumeDraftService.RemoveSkill(resumeDraftId, skill);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddSkill(int resumeDraftId, string skill)
+        {
+            if (skill == null)
+            {
+                return BadRequest(new { error = "Skill name is required" });
+            }
+            try
+            {
+                await _resumeDraftService.AddSkill(resumeDraftId, skill);
+            }
+            catch (InvalidOperationException e)
+            {
+
+                return BadRequest(new { error = e.Message });
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetPreloadedSkills()
+        {
+            return Ok(_resumeDraftService.GetPreloadedSkills());
         }
     }
 }

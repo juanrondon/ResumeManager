@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\images\logo.png" />
     <Content Include="wwwroot\js\ContactDetails.js" />
     <Content Include="wwwroot\js\ContactDetails.min.js" />
     <Content Include="wwwroot\js\Skills.js" />

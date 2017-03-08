@@ -22,12 +22,12 @@ namespace ResumeManager.Services
             _logger = loggerFactory.CreateLogger<ResumeApplicationService>();
         }
 
-        public async Task<ResumeDraft> GetResumeDraftById(int id)
+        public async Task<ResumeDraft> GetResumeDraftById(int resumeDraftId)
         {
             var resumeDraft = await _context.ResumeDrafts
                 .Include(rd => rd.ResumeDraftLanguages)
                 .Include(rd => rd.ResumeDraftSkills)
-                .FirstOrDefaultAsync(rd => rd.Id == id);
+                .FirstOrDefaultAsync(rd => rd.Id == resumeDraftId);
             if (resumeDraft == null)
             {
                 _logger.LogError(0, new InvalidOperationException(), "No resumeDrafts found in the database for selected user.");
@@ -109,19 +109,61 @@ namespace ResumeManager.Services
             return resumeDraft;
         }
 
-        public async Task DeleteResumeDraft(int resumeId)
+        public async Task DeleteResumeDraft(int resumeDraftId)
         {
-            var resumeDraft = await GetResumeDraftById(resumeId);
+            var resumeDraft = await GetResumeDraftById(resumeDraftId);
             _context.ResumeDrafts.Remove(resumeDraft);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteProfilePhoto(int resumeId)
+        public async Task DeleteProfilePhoto(int resumeDraftId)
         {
-            var resumeDraft = await GetResumeDraftById(resumeId);
+            var resumeDraft = await GetResumeDraftById(resumeDraftId);
             resumeDraft.Photo = null;
             resumeDraft.PhotoFileType = null;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<string>> GetSkills(int resumeDraftId)
+        {
+            var resumeDraft = await GetResumeDraftById(resumeDraftId);
+            var skillsList = _context.ResumeDraftSkills
+                .Where(rs => rs.ResumeDraftId == resumeDraft.Id)
+                .OrderBy(s => s.SkillName)
+                .Select(rs => rs.SkillName);
+            return skillsList.ToList();
+        }
+
+        public List<string> GetPreloadedSkills()
+        {
+            return _context.Skills.OrderBy(s => s.Name).Select(s => s.Name).ToList();
+        }
+
+        public async Task AddSkill(int resumeDraftId, string skill)
+        {
+            if (await CheckForExistingSkill(resumeDraftId, skill))
+            {
+                throw new InvalidOperationException("Skill has been assigned already");
+            }
+            var resumeDraftSkill = new ResumeDraftSkill
+            {
+                ResumeDraftId = resumeDraftId,
+                SkillName = skill
+            };
+            await _context.ResumeDraftSkills.AddAsync(resumeDraftSkill);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveSkill(int resumeDraftId, string skill)
+        {
+            var resumeDraftSkill = await _context.ResumeDraftSkills.FirstOrDefaultAsync(rds => rds.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
+            _context.ResumeDraftSkills.Remove(resumeDraftSkill);
+            await _context.SaveChangesAsync();
+        }
+        private async Task<bool> CheckForExistingSkill(int resumeDraftId, string skill)
+        {
+            return await _context.ResumeDraftSkills
+                 .AnyAsync(rds => rds.ResumeDraftId == resumeDraftId && rds.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

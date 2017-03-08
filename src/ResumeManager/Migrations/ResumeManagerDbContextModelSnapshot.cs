@@ -306,17 +306,13 @@ namespace ResumeManager.Migrations
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftSkill", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("ResumeDraftId");
 
-                    b.Property<string>("SkillName")
-                        .IsRequired();
+                    b.Property<string>("SkillName");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Id");
 
-                    b.HasIndex("ResumeDraftId");
+                    b.HasKey("ResumeDraftId", "SkillName");
 
                     b.ToTable("ResumeDraftSkills");
                 });

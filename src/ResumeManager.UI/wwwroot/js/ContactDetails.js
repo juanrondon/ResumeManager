@@ -28,7 +28,7 @@
             $(".thumbnail.img-preview").attr("src", "/images/user-default.png");
             $("#uploadedPhoto").val("");            
             var data = {
-                resumeId: resumeId //comming from _contactDetails partial
+                resumeDraftId: resumeDraftId //comming from _contactDetails partial
             };
             $.ajax({
                 type: "POST",
