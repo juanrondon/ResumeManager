@@ -2,11 +2,12 @@
 
 namespace ResumeManager.DataAccess.Models
 {
-    public class ResumeLanguage
+    public class ResumeDraftLanguage
     {
         public int Id { get; set; }
-        public int ResumeId { get; set; }
-        public Resume Resume { get; set; }
+        [Required]
+        public int ResumeDraftId { get; set; }
+        public ResumeDraft ResumeDraft { get; set; }
         [Required]
         public string LanguageName { get; set; }
     }

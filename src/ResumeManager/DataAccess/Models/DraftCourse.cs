@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ResumeManager.DataAccess.Models
 {
-    public class Job
+    public class DraftCourse
     {
         public int Id { get; set; }
         [Required]
-        public string JobTitle { get; set; }
-        [Required]
-        public string CompanyName { get; set; }
+        public string CourseName { get; set; }        
+        public string InstitutionName { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        [Required]
-        public string Responsabilities { get; set; }
         public string OtherInformation { get; set; }
         [Required]
-        public int ResumeId { get; set; }
-        public Resume Resume { get; set; }
+        public int ResumeDraftId { get; set; }
+        public ResumeDraft ResumeDraft { get; set; }
+
     }
 }

@@ -5,15 +5,18 @@ namespace ResumeManager.DataAccess.Models
 {
     public class Qualification
     {
-        public int QualificationId { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string QualificationName { get; set; }
+        public string Name { get; set; }
         [Required]
-        public string QualificationType { get; set; }
+        public string Type { get; set; }
         [Required]
         public string InstitutionName { get; set; }
         [Required]
         public DateTime DateAquired { get; set; }
         public string OtherInformation { get; set; }
+        public Resume Resume { get; set; }
+        [Required]
+        public int ResumeId { get; set; }
     }
 }

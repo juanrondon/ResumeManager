@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ResumeManager.DataAccess.Models
 {
-    public class Job
+    public class DraftJob
     {
         public int Id { get; set; }
         [Required]
@@ -17,7 +17,7 @@ namespace ResumeManager.DataAccess.Models
         public string Responsabilities { get; set; }
         public string OtherInformation { get; set; }
         [Required]
-        public int ResumeId { get; set; }
-        public Resume Resume { get; set; }
+        public int ResumeDraftId { get; set; }
+        public ResumeDraft ResumeDraft { get; set; }
     }
 }

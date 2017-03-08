@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using ResumeManager.DataAccess.Models;
 using ResumeManager.Services;
+using ResumeManager.Migrations;
 
 namespace ResumeManager.UI
 {
@@ -34,12 +35,14 @@ namespace ResumeManager.UI
             services.AddDbContext<ResumeManagerDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
-            // Add DI
-            services.AddScoped<ResumeApplicationService>();
+            
+            services.AddScoped<ResumeDraftApplicationService>();
+            services.AddScoped<UserApplicationService>();
+            services.AddTransient<SeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ResumeManagerDbContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SeedData seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -70,14 +73,13 @@ namespace ResumeManager.UI
                 ClientSecret = "secret",
                 ResponseType = "id_token",
                 GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true,
-                Scope = { "UserInfo" }
+                SaveTokens = true                
             });
 
             app.UseStaticFiles();
 
             //Seed initial data to DB
-            context.Seed();
+            seeder.Seed();
 
             app.UseMvc(routes =>
             {

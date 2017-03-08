@@ -8,9 +8,10 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    partial class ResumeManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170308090259_Modified resumeId in ResumeDraft table")]
+    partial class ModifiedresumeIdinResumeDrafttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

@@ -42,7 +42,7 @@ namespace ResumeManager.UI.Models.Resume
         public string LinkedIn { get; set; }
         [Required]
         [Display(Name = "Skill")]
-        public string CoreSkills { get; set; }
+        public string CoreSkills { get; set; }             
 
         //[Required(ErrorMessage = "Summary field is required")]
         //public string Summary { get; set; }

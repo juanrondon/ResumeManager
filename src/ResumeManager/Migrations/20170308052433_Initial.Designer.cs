@@ -8,9 +8,10 @@ using ResumeManager.DataAccess.Models;
 namespace ResumeManager.Migrations
 {
     [DbContext(typeof(ResumeManagerDbContext))]
-    partial class ResumeManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170308052433_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -272,7 +273,7 @@ namespace ResumeManager.Migrations
 
                     b.Property<string>("References");
 
-                    b.Property<int?>("ResumeId");
+                    b.Property<int>("ResumeId");
 
                     b.Property<string>("Status");
 
@@ -433,7 +434,8 @@ namespace ResumeManager.Migrations
                 {
                     b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
                         .WithMany("ResumeDrafts")
-                        .HasForeignKey("ResumeId");
+                        .HasForeignKey("ResumeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ResumeManager.DataAccess.Models.User", "User")
                         .WithMany("ResumeDrafts")

@@ -5,7 +5,7 @@ namespace ResumeManager.DataAccess.Models
 {
     public class Language
     {
-        public int LanguageId { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
     }

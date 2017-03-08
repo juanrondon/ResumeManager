@@ -1,0 +1,33 @@
+﻿using Microsoft.Extensions.Logging;
+using ResumeManager.DataAccess.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ResumeManager.Services
+{
+    public class UserApplicationService
+    {
+        private readonly ResumeManagerDbContext _context;
+        private readonly ILogger _logger;
+
+        public UserApplicationService(ResumeManagerDbContext context, ILoggerFactory loggerFactory)
+        {
+            _context = context;
+            _logger = loggerFactory.CreateLogger<ResumeApplicationService>();
+        }
+
+        //Registers a new user in the local db
+        public async Task<User> RegisterUser(string email)
+        {
+            var user = new User
+            {
+                Email = email
+            };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+    }
+}

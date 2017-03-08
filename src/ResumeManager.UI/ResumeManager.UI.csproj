@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\js\ContactDetails.js" />
+    <Content Include="wwwroot\js\ContactDetails.min.js" />
+    <Content Include="wwwroot\js\Skills.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
