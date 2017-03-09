@@ -10,9 +10,10 @@
         <link href="~/lib/Font-Awesome/css/font-awesome.css" rel="stylesheet" />
         <link href="~/lib/kendo-ui-core/styles/kendo.common-bootstrap.core.min.css" rel="stylesheet" />
         <link href="~/lib/kendo-ui-core/styles/kendo.bootstrap.min.css" rel="stylesheet" />
-        <link href="~/lib/kendo-ui-core/styles/kendo.bootstrap.mobile.min.css" rel="stylesheet" />
+        <link href="~/lib/kendo-ui-core/styles/kendo.bootstrap.mobile.min.css" rel="stylesheet" />        
         <link href="~/lib/trix/dist/trix.css" rel="stylesheet" />
         <link href="~/css/site.css" rel="stylesheet" />
+        
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -68,36 +69,6 @@
                         </ul>
                     </li>
                 </ul>
-
-
-                @*<li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                @User.Claims.FirstOrDefault(c => c.Type == "name").Value.ToLower()
-                            }
-                            else
-                            {
-                                <span>Not Logged in</span>
-                            }
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-
-                            @if (!User.Identity.IsAuthenticated)
-                            {
-                                <a class="dropdown-item" asp-host="localhost:5000" asp-controller="account" asp-action="register" asp-route-returnUrl="http://localhost:5002/User/RegisterUser">Register</a>
-                                    <a class="dropdown-item" asp-host="localhost:5000" asp-controller="account" asp-action="login" asp-route-returnUrl="http://localhost:5002">Login</a>
-                            }
-                            else
-                            {
-                                <a class="dropdown-item" asp-controller="User" asp-action="UpdateProfile">Update Profile</a>
-                                    <a class="dropdown-item" asp-controller="User" asp-action="LogOut">Logout</a>
-                            }
-                        </div>
-                    </li>*@
-
             </div>
         </div>
     </div>
@@ -113,7 +84,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/kendo-ui-core/js/kendo.ui.core.min.js"></script>
-        <script src="~/lib/trix/dist/trix.js"></script>
+        <script src="~/lib/trix/dist/trix.js"></script>        
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

@@ -1,3 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="tagline"><img id="logoImage" src="~/images/logo.png" width="100" height="100" /> ResumeManager</h1>
+        <p>Writing an effective resume doesn't have to be hard. A precision targeted and professionally typeset resume is the key to scoring an interview. Simply fill in your information, and ResumeManager produces a clean, correctly formatted PDF resume you can email directly, post online, or print out.</p>
+        <p>With ResumeManager you will be able to create beautiful, professional resumes in minutes.</p>
+        <p>
+            If you are already registered please login <a asp-host="localhost:5000" class="btn btn-primary" asp-controller="account" asp-action="login" asp-route-returnUrl="http://localhost:5002/ResumeDraft"><i class='fa fa-pencil-square-o'></i> Login</a>
+            otherwise register for free! <a asp-host="localhost:5000" class="btn btn-primary" asp-controller="account" asp-action="register" asp-route-returnUrl="http://localhost:5002/User/RegisterUser"><i class='fa fa-sign-in'></i> Register Now!</a>
+        </p>      
+</div>
+</div>

@@ -13,7 +13,11 @@
   <ItemGroup>
     <Content Include="wwwroot\images\logo.png" />
     <Content Include="wwwroot\js\ContactDetails.js" />
+    <Content Include="wwwroot\js\Qualifications.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\js\ContactDetails.min.js" />
+    <Content Include="wwwroot\js\Qualifications.min.js" />
     <Content Include="wwwroot\js\Skills.js" />
   </ItemGroup>
 

@@ -30,10 +30,6 @@ textarea {
     }
 }
 
-img {
-    border: 0;
-}
-
 #navbar-brand-img {
     margin-right: 8px;
     margin-top: -10px;
@@ -57,11 +53,14 @@ footer {
     /* Set the fixed height of the footer here */
     height: 50px;
 }
-/* -------------- CreateResume -------------- */
-
-#ContactDetailsForm, #SkillsForm {
-    margin-top: 40px;
+/* -------------- Home page -------------- */
+.tagline {
+    text-shadow: 0 0 10px #000;
+    color: #fff;
+    margin-bottom: 50px;
 }
+
+/* -------------- CreateResume -------------- */
 
 .req:after {
     content: " *";
@@ -78,7 +77,7 @@ footer {
 .image-preview-input {
     position: relative;
     overflow: hidden;
-    margin: 0px;
+    margin: 0;
     color: #333;
     background-color: #fff;
     border-color: #ccc;
@@ -128,8 +127,8 @@ footer {
     vertical-align: middle;
 }
 
-.iconRemove {
-    padding: 8px;
+.positionIconRemove {
+    text-align: right;
 }
 
 .hov {
@@ -137,134 +136,9 @@ footer {
     font-size: large;
 }
 
-.icon {
-    text-align: right;
-}
-
-.hov:hover {
-    background-color: #f2f2f2;
-}
-
-/*Animations for the notifications*/
-.animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
-@-webkit-keyframes bounceInDown {
-    from, 60%, 75%, 90%, to {
-        -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    .hov:hover {
+        background-color: #f2f2f2;
     }
 
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -3000px, 0);
-        transform: translate3d(0, -3000px, 0);
-    }
 
-    60% {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 25px, 0);
-        transform: translate3d(0, 25px, 0);
-    }
-
-    75% {
-        -webkit-transform: translate3d(0, -10px, 0);
-        transform: translate3d(0, -10px, 0);
-    }
-
-    90% {
-        -webkit-transform: translate3d(0, 5px, 0);
-        transform: translate3d(0, 5px, 0);
-    }
-
-    to {
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-
-@keyframes bounceInDown {
-    from, 60%, 75%, 90%, to {
-        -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    }
-
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -3000px, 0);
-        transform: translate3d(0, -3000px, 0);
-    }
-
-    60% {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 25px, 0);
-        transform: translate3d(0, 25px, 0);
-    }
-
-    75% {
-        -webkit-transform: translate3d(0, -10px, 0);
-        transform: translate3d(0, -10px, 0);
-    }
-
-    90% {
-        -webkit-transform: translate3d(0, 5px, 0);
-        transform: translate3d(0, 5px, 0);
-    }
-
-    to {
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-
-.bounceInDown {
-    -webkit-animation-name: bounceInDown;
-    animation-name: bounceInDown;
-}
-
-@-webkit-keyframes bounceOutUp {
-    20% {
-        -webkit-transform: translate3d(0, -10px, 0);
-        transform: translate3d(0, -10px, 0);
-    }
-
-    40%, 45% {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 20px, 0);
-        transform: translate3d(0, 20px, 0);
-    }
-
-    to {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -2000px, 0);
-        transform: translate3d(0, -2000px, 0);
-    }
-}
-
-@keyframes bounceOutUp {
-    20% {
-        -webkit-transform: translate3d(0, -10px, 0);
-        transform: translate3d(0, -10px, 0);
-    }
-
-    40%, 45% {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 20px, 0);
-        transform: translate3d(0, 20px, 0);
-    }
-
-    to {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -2000px, 0);
-        transform: translate3d(0, -2000px, 0);
-    }
-}
-
-.bounceOutUp {
-    -webkit-animation-name: bounceOutUp;
-    animation-name: bounceOutUp;
-}
+/*qualification*/

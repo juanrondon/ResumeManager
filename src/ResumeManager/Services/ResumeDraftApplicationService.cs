@@ -27,6 +27,7 @@ namespace ResumeManager.Services
             var resumeDraft = await _context.ResumeDrafts
                 .Include(rd => rd.ResumeDraftLanguages)
                 .Include(rd => rd.ResumeDraftSkills)
+                .Include(rd => rd.DraftQualifications)
                 .FirstOrDefaultAsync(rd => rd.Id == resumeDraftId);
             if (resumeDraft == null)
             {
@@ -164,6 +165,55 @@ namespace ResumeManager.Services
         {
             return await _context.ResumeDraftSkills
                  .AnyAsync(rds => rds.ResumeDraftId == resumeDraftId && rds.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public async Task AddQualification(AddQualificationCommand command)
+        {
+            var draftQualification = new DraftQualification
+            {
+                DateAquired = command.DateAquired,
+                InstitutionName = command.Institution,
+                Name = command.Name,
+                Type = command.Type,
+                OtherInformation = command.OtherInfo,
+                ResumeDraftId = command.ResumeDraftId
+            };
+            await _context.DraftQualifications.AddAsync(draftQualification);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<DraftQualification>> GetQualifications(int resumeDraftId)
+        {
+            var resumeDraft = await GetResumeDraftById(resumeDraftId);
+            var qualificationList = _context.DraftQualifications
+                .Where(rs => rs.ResumeDraftId == resumeDraft.Id).OrderByDescending(q => q.DateAquired).ToList();
+
+            return qualificationList;
+        }
+
+        public async Task RemoveQualification(int draftQualificationId)
+        {
+            var draftQual = await _context.DraftQualifications.FirstOrDefaultAsync(dq => dq.Id == draftQualificationId);
+            _context.DraftQualifications.Remove(draftQual);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateQualification(UpdateQualificationCommand command)
+        {
+            var draftQualification = await GetQualification(command.DraftQualId);
+            draftQualification.DateAquired = command.DateAquired;
+            draftQualification.InstitutionName = command.Institution;
+            draftQualification.Name = command.Name;
+            draftQualification.Type = command.Type;
+            draftQualification.OtherInformation = command.OtherInfo;
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task<DraftQualification> GetQualification(int draftQualId)
+        {
+            var qual = await _context.DraftQualifications.FirstOrDefaultAsync(dq => dq.Id == draftQualId);
+            return qual;
         }
     }
 }

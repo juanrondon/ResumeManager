@@ -10,8 +10,10 @@
 
     <div class="container">
         <ul class="nav nav-tabs">
-            <li id="ContactTab" class="active"><a data-toggle="tab" href="#ContactDetails"><i class="fa fa-user" aria-hidden="true"></i> Contact Details</a></li>
-            <li id="skillsTab"><a data-toggle="tab" href="#Skills"><i class="fa fa-rocket" aria-hidden="true"></i> Skills</a></li>
+            <li class="active"><a data-toggle="tab" href="#ContactDetails"><i class="fa fa-user" aria-hidden="true"></i> Contact Details</a></li>
+            <li><a data-toggle="tab" href="#Skills"><i class="fa fa-rocket" aria-hidden="true"></i> Skills</a></li>
+            <li><a data-toggle="tab" href="#PersonalSkills"><i class="fa fa-align-center" aria-hidden="true"></i> Personal Skills</a></li>
+            <li><a data-toggle="tab" href="#Qualifications"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Qualifications</a></li>
         </ul>
         <div class="tab-content">
             <div id="ContactDetails" class="tab-pane fade in active">
@@ -19,6 +21,12 @@
             </div>
             <div id="Skills" class="tab-pane fade">
                 @Html.Partial("~/Views/ResumeDraft/_SkillsPartial.cshtml", Model)
+            </div>
+            <div id="PersonalSkills" class="tab-pane fade">
+                @Html.Partial("~/Views/ResumeDraft/_PersonalSkillsPartial.cshtml", Model)
+            </div>
+            <div id="Qualifications" class="tab-pane fade">
+                @Html.Partial("~/Views/ResumeDraft/_QualificationsPartial.cshtml", Model)
             </div>
         </div>
     </div>
@@ -31,55 +39,7 @@
     </div>
 </form>
 
-@*<div class="row">
-        <div class="col-md-12">
-            <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <i class="fa fa-user" aria-hidden="true"></i> Contact Details
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        @Html.Partial("~/Views/Resume/_ContactDetailsPartial.cshtml", Model)
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                <i class="fa fa-rocket" aria-hidden="true"></i> Skills
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse">
-                        @Html.Partial("~/Views/Resume/_SkillsPartial.cshtml", Model)
-                    </div>
-                </div>
-
-                @*<div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                                    <i class="fa fa-align-center" aria-hidden="true"></i> Summary
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <input id="summary" type="hidden" name="Summary">
-                                        <trix-editor placeholder="Please enter a summary of your skills" input="summary"></trix-editor>
-                                        <span asp-validation-for="Summary" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+@*
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -205,4 +165,6 @@
     <script src="~/lib/handlebars/handlebars.js"></script>
     <script src="~/js/ContactDetails.js"></script>
     <script src="~/js/Skills.js"></script>
+    <script src="~/js/Qualifications.js"></script>
+    <script src="~/lib/moment/min/moment.min.js"></script>
 }

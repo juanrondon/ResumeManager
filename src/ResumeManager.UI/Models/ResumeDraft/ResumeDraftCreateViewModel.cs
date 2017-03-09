@@ -40,9 +40,7 @@ namespace ResumeManager.UI.Models.ResumeDraft
 
         public string Interests { get; set; }
 
-        public string References { get; set; }
-
-        public string Skill { get; set; }
+        public string References { get; set; }        
 
         public string ProfilePhotoBase64 { get; set; }
     }

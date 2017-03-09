@@ -16,11 +16,6 @@
             });
         }
         $("#addSkill").click(function () {
-            //var value = this.closest("form");
-            //$(form).validate();
-            //if (!$(form).valid()) {
-            //    return;
-            //}
             $("#addSkillError").html("");
             var name = $("#Skill").val();
             var addSkill = $.ajax({
@@ -35,9 +30,9 @@
                 $("#Skill").val("");
                 listSkills();
             });
-            addSkill.fail(function (jqXHR, textStatus, errorThrown) {                
+            addSkill.fail(function (jqXHR, textStatus, errorThrown) {
                 $("#Skill").val("");
-                $("#addSkillError").html(jqXHR.responseJSON.error);                
+                $("#addSkillError").html(jqXHR.responseJSON.error);
                 listSkills();
             });
         });

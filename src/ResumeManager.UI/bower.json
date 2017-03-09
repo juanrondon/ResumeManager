@@ -8,8 +8,9 @@
     "Font-Awesome": "4.7.0",
     "kendo-ui-core": "2017.1.223+SP1",
     "jquery-validation": "1.14.0",
-    "jquery-validation-unobtrusive": "3.2.6",    
-    "handlebars": "^4.0.5"
+    "jquery-validation-unobtrusive": "3.2.6",
+    "handlebars": "^4.0.5",
+    "moment": "2.17.1"
   },
   "resolutions": {
     "jquery": ">= 1.7.2"

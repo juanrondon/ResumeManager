@@ -171,5 +171,67 @@ namespace ResumeManager.UI.Controllers
         {
             return Ok(_resumeDraftService.GetPreloadedSkills());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddQualification(AddQualificationViewModel model)
+        {
+            var command = new AddQualificationCommand
+            {
+                Name = model.Name,
+                DateAquired = model.DateAquired,
+                Institution = model.Institution,
+                OtherInfo = model.OtherInfo,
+                ResumeDraftId = model.ResumeDraftId,
+                Type = model.Type
+            };
+            await _resumeDraftService.AddQualification(command);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDraftQualification(UpdateQualificationViewModel model)
+        {
+            var command = new UpdateQualificationCommand
+            {
+                DraftQualId = model.DraftQualificationId,
+                Name = model.Name,
+                DateAquired = model.DateAquired,
+                Institution = model.Institution,
+                OtherInfo = model.OtherInfo,
+                Type = model.Type
+            };
+            await _resumeDraftService.UpdateQualification(command);
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetQualifications(int resumeDraftId)
+        {
+            var list = await _resumeDraftService.GetQualifications(resumeDraftId);
+            var objectList = list.Select(q => new { name = q.Name, type = q.Type, institution = q.InstitutionName, dateAquired = q.DateAquired, otherInfo = q.OtherInformation, id = q.Id }).ToList();
+            return Ok(objectList);
+        }
+
+        [HttpPost]
+        public async Task RemoveQualification(int draftQualificationId)
+        {
+            await _resumeDraftService.RemoveQualification(draftQualificationId);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDraftQualification(int draftQualificationId)
+        {
+            var qualification = await _resumeDraftService.GetQualification(draftQualificationId);
+            var qual = new
+            {
+                name = qualification.Name,
+                type = qualification.Type,
+                institution = qualification.InstitutionName,
+                dateAquired = qualification.DateAquired,
+                otherInfo = qualification.OtherInformation,
+                id = qualification.Id
+            };
+            return Ok(qual);
+        }
     }
 }

@@ -1,11 +1,5 @@
-﻿
-(function () {
-    $(document).ready(function () {
-       
-
-        $.validator.setDefaults({
-            ignore: ""
-        });
+﻿(function () {
+    $(document).ready(function () {  
 
         $("#LanguageList").kendoMultiSelect({
             placeholder: "Select Languages ..."

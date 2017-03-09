@@ -1,0 +1,12 @@
+@model ResumeManager.UI.Models.ResumeDraft.ResumeDraftCreateViewModel
+
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="trix-container">
+                <input id="x" type="hidden" asp-for="@Model.PersonalSkills">
+                <trix-editor placeholder="Please enter your personal skills" input="x"></trix-editor>
+            </div>
+        </div>
+    </div>
+</div>
