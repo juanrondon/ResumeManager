@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using ResumeManager.UI.Models.DraftQualification;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ResumeManager.UI.Models.ResumeDraft
 {
@@ -32,16 +31,26 @@ namespace ResumeManager.UI.Models.ResumeDraft
 
         public MultiSelectList LanguageList { get; set; }
 
+        public QualificationViewModels QualificationViewModels { get; set; }
+
         public string GitHub { get; set; }
 
-        public string LinkedIn { get; set; }        
+        public string LinkedIn { get; set; }
 
-        public string PersonalSkills { get; set; }     
+        public string PersonalSkills { get; set; }
 
         public string Interests { get; set; }
 
-        public string References { get; set; }        
+        public string References { get; set; }
 
         public string ProfilePhotoBase64 { get; set; }
+
+        [Required]
+        public string Skill { get; set; }
+
+        public ResumeDraftCreateViewModel()
+        {
+            QualificationViewModels = new QualificationViewModels();
+        }
     }
 }

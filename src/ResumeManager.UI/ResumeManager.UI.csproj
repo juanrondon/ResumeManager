@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot/js\1lvuxrz5.cxb~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\images\logo.png" />
     <Content Include="wwwroot\js\ContactDetails.js" />
     <Content Include="wwwroot\js\Qualifications.js">
@@ -18,6 +22,7 @@
     </Content>
     <Content Include="wwwroot\js\ContactDetails.min.js" />
     <Content Include="wwwroot\js\Qualifications.min.js" />
+    <Content Include="wwwroot\js\site.js" />
     <Content Include="wwwroot\js\Skills.js" />
   </ItemGroup>
 

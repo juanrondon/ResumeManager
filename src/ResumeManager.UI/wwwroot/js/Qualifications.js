@@ -47,7 +47,12 @@
             });
         }
 
-        $("#addQualification").click(function () {
+        //Add Qualification 
+        $("#addQualification").click(function (e) {
+            e.preventDefault();
+            if (!$("#createResumeDraftForm").valid())
+                return;
+
             var data = {
                 resumeDraftId: resumeDraftId,
                 name: $("#Name").val(),
@@ -69,9 +74,12 @@
                 $("#DateAquired").data('kendoDatePicker').value(new Date());
                 listQualifications();
             });
+            addQualification.fail(function (errors) {
+                displayErrors(errors, "Error");
+            });
         });
 
-
+        //Delete qualification
         $(document).on("click", ".removeQual", function () {
             var draftQualId = $(this).data("id");
             var removeQualification = $.ajax({
@@ -86,6 +94,7 @@
             });
         });
 
+        //Update qualification - display modal
         $(document).on("click", ".editQual", function () {
             var draftQualId = $(this).data("id");
             var editQualification = $.ajax({
@@ -96,6 +105,7 @@
                 }
             });
             editQualification.done(function (data) {
+                //Populate edit modal
                 $("#NameModal").val(data.name);
                 $("#NameModal").val(data.name);
                 $("#QualId").val(data.id);
@@ -106,7 +116,16 @@
             });
         });
 
-        $(document).on("click", "#saveChangesModal", function () {
+        //Update qualification - Save changes
+        $(document).on("click", "#saveChangesModal", function (e) {
+            e.preventDefault();
+            var nameError = $("#NameModal").valid();
+            var typeError = $("#TypeModal").valid();
+            var DateError = $("#DateAquiredModal").valid();
+            var InstError = $("#InstitutionModal").valid();
+            if (!nameError || !typeError || !DateError || !InstError) {
+                return;
+            }
             var draftQualId = $("#QualId").val();
             var qualData = {
                 draftQualificationId: draftQualId,
@@ -124,8 +143,11 @@
                 }
             });
             updateQualification.done(function () {
-                $('#qualification-editor').modal('hide')
+                $('#qualification-editor').modal('hide');
                 listQualifications();
+            });
+            updateQualification.fail(function (errors) {
+                displayErrors(errors, "ModalError");
             });
         });
         listQualifications();

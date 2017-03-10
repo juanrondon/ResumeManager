@@ -125,14 +125,14 @@ namespace ResumeManager.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<string>> GetSkills(int resumeDraftId)
+        public async Task<List<ResumeDraftSkill>> GetSkills(int resumeDraftId)
         {
             var resumeDraft = await GetResumeDraftById(resumeDraftId);
             var skillsList = _context.ResumeDraftSkills
                 .Where(rs => rs.ResumeDraftId == resumeDraft.Id)
-                .OrderBy(s => s.SkillName)
-                .Select(rs => rs.SkillName);
-            return skillsList.ToList();
+                .OrderBy(s => s.SkillName).ToList();
+                
+            return skillsList;
         }
 
         public List<string> GetPreloadedSkills()
@@ -144,7 +144,7 @@ namespace ResumeManager.Services
         {
             if (await CheckForExistingSkill(resumeDraftId, skill))
             {
-                throw new InvalidOperationException("Skill has been assigned already");
+                throw new InvalidOperationException("Skill has been assigned already.");
             }
             var resumeDraftSkill = new ResumeDraftSkill
             {
@@ -155,9 +155,9 @@ namespace ResumeManager.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveSkill(int resumeDraftId, string skill)
+        public async Task RemoveSkill(int skillId)
         {
-            var resumeDraftSkill = await _context.ResumeDraftSkills.FirstOrDefaultAsync(rds => rds.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
+            var resumeDraftSkill = await _context.ResumeDraftSkills.FirstOrDefaultAsync(rds => rds.Id == skillId);
             _context.ResumeDraftSkills.Remove(resumeDraftSkill);
             await _context.SaveChangesAsync();
         }

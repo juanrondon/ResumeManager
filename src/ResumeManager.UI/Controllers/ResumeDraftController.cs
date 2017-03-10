@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System;
+using ResumeManager.UI.Models.DraftQualification;
 
 namespace ResumeManager.UI.Controllers
 {
@@ -85,41 +86,36 @@ namespace ResumeManager.UI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(ResumeDraftCreateViewModel model, IFormFile profilePhoto)
-        {
-            if (ModelState.IsValid)
+        {            
+            var command = new UpdateResumeDraftCommand
             {
-                var command = new UpdateResumeDraftCommand
+                Address = model.Address,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                GitHub = model.GitHub,
+                Id = model.Id,
+                Interests = model.Interests,
+                LastName = model.LastName,
+                LinkedIn = model.LinkedIn,
+                Mobile = model.Mobile,
+                PersonalSkills = model.PersonalSkills,
+                References = model.References,
+                ResumeDraftLanguagesIds = model.LanguageListIds,
+                UserId = model.UserId
+            };
+            if (profilePhoto != null && profilePhoto.Length > 0)
+            {
+                using (var fileStream = profilePhoto.OpenReadStream())
+                using (var ms = new MemoryStream())
                 {
-                    Address = model.Address,
-                    Email = model.Email,
-                    FirstName = model.FirstName,
-                    GitHub = model.GitHub,
-                    Id = model.Id,
-                    Interests = model.Interests,
-                    LastName = model.LastName,
-                    LinkedIn = model.LinkedIn,
-                    Mobile = model.Mobile,
-                    PersonalSkills = model.PersonalSkills,
-                    References = model.References,
-                    ResumeDraftLanguagesIds = model.LanguageListIds,
-                    UserId = model.UserId
-                };
-                if (profilePhoto != null && profilePhoto.Length > 0)
-                {
-                    using (var fileStream = profilePhoto.OpenReadStream())
-                    using (var ms = new MemoryStream())
-                    {
-                        fileStream.CopyTo(ms);
-                        var fileBytes = ms.ToArray();
-                        command.ProfilePhoto = fileBytes;
-                        command.ProfilePhotoFileType = profilePhoto.ContentType;
-                    }
+                    fileStream.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    command.ProfilePhoto = fileBytes;
+                    command.ProfilePhotoFileType = profilePhoto.ContentType;
                 }
-                await _resumeDraftService.UpdateResumeDraft(command);
-                return RedirectToAction("Index");
             }
-            model.LanguageList = new MultiSelectList(_context.Languages.OrderBy(l => l.Name).ToList(), "Id", "Name");
-            return View();
+            await _resumeDraftService.UpdateResumeDraft(command);
+            return RedirectToAction("Index");          
         }
 
         public async Task<IActionResult> Delete(int resumeDraftId)
@@ -138,21 +134,29 @@ namespace ResumeManager.UI.Controllers
         public async Task<IActionResult> GetSkills(int resumeDraftId)
         {
             var list = await _resumeDraftService.GetSkills(resumeDraftId);
-            return Ok(list);
+            var objectList = list.Select(q => new { name = q.SkillName, id = q.Id}).ToList();
+            return Ok(objectList);
         }
 
         [HttpPost]
-        public async Task RemoveSkill(int resumeDraftId, string skill)
+        public async Task RemoveSkill(int skillId)
         {
-            await _resumeDraftService.RemoveSkill(resumeDraftId, skill);
+            await _resumeDraftService.RemoveSkill(skillId);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddSkill(int resumeDraftId, string skill)
-        {
+        {           
             if (skill == null)
             {
-                return BadRequest(new { error = "Skill name is required" });
+                ModelState.AddModelError("Skill", "The Skill field is required.");
+                var result = from ms in ModelState
+                             where ms.Value.Errors.Any()
+                             let fieldKey = ms.Key
+                             let errors = ms.Value.Errors
+                             from error in errors
+                             select new { fieldKey, error.ErrorMessage };
+                return BadRequest(result);
             }
             try
             {
@@ -160,8 +164,14 @@ namespace ResumeManager.UI.Controllers
             }
             catch (InvalidOperationException e)
             {
-
-                return BadRequest(new { error = e.Message });
+                ModelState.AddModelError("Skill", e.Message);
+                var result = from ms in ModelState
+                             where ms.Value.Errors.Any()
+                             let fieldKey = ms.Key
+                             let errors = ms.Value.Errors
+                             from error in errors
+                             select new { fieldKey, error.ErrorMessage };
+                return BadRequest(result);
             }
             return Ok();
         }
@@ -174,7 +184,17 @@ namespace ResumeManager.UI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddQualification(AddQualificationViewModel model)
-        {
+        {           
+            if (!ModelState.IsValid)
+            {
+                var result = from ms in ModelState
+                             where ms.Value.Errors.Any()
+                             let fieldKey = ms.Key
+                             let errors = ms.Value.Errors
+                             from error in errors
+                             select new { fieldKey, error.ErrorMessage };
+                return BadRequest(result);
+            }
             var command = new AddQualificationCommand
             {
                 Name = model.Name,
@@ -191,6 +211,16 @@ namespace ResumeManager.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateDraftQualification(UpdateQualificationViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var result = from ms in ModelState
+                             where ms.Value.Errors.Any()
+                             let fieldKey = ms.Key
+                             let errors = ms.Value.Errors
+                             from error in errors
+                             select new { fieldKey, error.ErrorMessage };
+                return BadRequest(result);
+            }
             var command = new UpdateQualificationCommand
             {
                 DraftQualId = model.DraftQualificationId,

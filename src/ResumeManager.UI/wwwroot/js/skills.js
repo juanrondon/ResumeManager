@@ -1,6 +1,7 @@
 ﻿(function () {
     var source = $("#skills-template").html();
     var template = Handlebars.compile(source);
+
     $(document).ready(function () {
         function listSkills() {
             //get skills from DB
@@ -9,14 +10,16 @@
                 url: "/ResumeDraft/GetSkills",
                 data: { resumeDraftId: resumeDraftId }
             });
-            getSkills.done(function (skillsList) {
+            getSkills.done(function (skillsList) {                
                 var context = { skills: skillsList };
                 var html = template(context);
                 $("#skillsListContainer").empty().html(html);
             });
         }
-        $("#addSkill").click(function () {
-            $("#addSkillError").html("");
+        $("#addSkill").click(function (e) {
+            e.preventDefault();
+            if (!$("#createResumeDraftForm").valid())
+                return;
             var name = $("#Skill").val();
             var addSkill = $.ajax({
                 type: "get",
@@ -30,21 +33,19 @@
                 $("#Skill").val("");
                 listSkills();
             });
-            addSkill.fail(function (jqXHR, textStatus, errorThrown) {
-                $("#Skill").val("");
-                $("#addSkillError").html(jqXHR.responseJSON.error);
+            addSkill.fail(function (errors) {                
+                displayErrors(errors, "Error");
                 listSkills();
             });
         });
 
-        $(document).on("click", ".iconRemove", function () {
-            var name = $(this).data("value");
+        $(document).on("click", ".removeSkill", function () {
+            var id = $(this).data("id");
             var removeSkill = $.ajax({
                 type: "post",
                 url: "/ResumeDraft/RemoveSkill",
                 data: {
-                    resumeDraftId: resumeDraftId,
-                    skill: name
+                    skillId: id                    
                 }
             });
             removeSkill.done(function () {
@@ -53,7 +54,7 @@
         });
 
         $("#Skill").kendoAutoComplete({
-            placeholder: "Select skill ...",
+            placeholder: "Type your skill ...",
             filter: "startswith",
             minLength: 1,
             dataSource: {

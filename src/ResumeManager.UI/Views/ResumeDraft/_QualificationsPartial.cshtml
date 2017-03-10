@@ -1,36 +1,36 @@
-@model ResumeManager.UI.Models.ResumeDraft.ResumeDraftCreateViewModel
+@model ResumeManager.UI.Models.DraftQualification.QualificationViewModels
 
 <div class="panel-body">
     <div class="row">
-        <input asp-for="@Model.Id" type="hidden" />
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label req">Name</label>
-                <input type="text" id="Name" placeholder="Enter the qualification name" class="form-control" />
-
+                <label asp-for="@Model.AddQualificationViewModel.Name" class="control-label req"></label>
+                <input id="Name" asp-for="@Model.AddQualificationViewModel.Name" placeholder="Enter the qualification name" class="form-control" />
+                <span asp-validation-for="@Model.AddQualificationViewModel.Name" id="NameError" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label req">Type</label>
-                <input type="text" id="Type" placeholder="Certificate IV, Diploma, etc.." class="form-control" />
-
+                <label asp-for="@Model.AddQualificationViewModel.Type" class="control-label req"></label>
+                <input id="Type" asp-for="@Model.AddQualificationViewModel.Type" placeholder="Certificate IV, Diploma, etc.." class="form-control" />
+                <span asp-validation-for="@Model.AddQualificationViewModel.Type" id="TypeError" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label req">Institution</label>
-                <input type="text" id="Institution" placeholder="Enter the name of the institution" class="form-control" />
-
+                <label asp-for="@Model.AddQualificationViewModel.Institution" class="control-label req"></label>
+                <input asp-for="@Model.AddQualificationViewModel.Institution" id="Institution" placeholder="Enter the name of the institution" class="form-control" />
+                <span asp-validation-for="@Model.AddQualificationViewModel.Institution" id="InstitutionError" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div>
-                    <label class="control-label req">Date Aquired</label>
+                    <label asp-for="@Model.AddQualificationViewModel.DateAquired" class="control-label req"></label>
                 </div>
-                <input id="DateAquired" name="DateAquired" />
+                <input id="DateAquired" asp-for="@Model.AddQualificationViewModel.DateAquired" />
+                <span asp-validation-for="@Model.AddQualificationViewModel.DateAquired" id="DateAquiredError" class="text-danger"></span>
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label">Other Information</label>
-                <textarea id="OtherInfo" rows="10" placeholder="Enter other relevant information" class="form-control"></textarea>
+                <label asp-for="@Model.AddQualificationViewModel.OtherInfo" class="control-label"></label>
+                <textarea id="OtherInfo" asp-for="@Model.AddQualificationViewModel.OtherInfo" rows="10" placeholder="Enter other relevant information" class="form-control"></textarea>
             </div>
         </div>
     </div>
@@ -41,61 +41,20 @@
 <div id="QualificationListContainer"></div>
 
 
-@* Modal form *@
+@* Update Qualification Modal form *@
 <div class="modal fade" id="qualification-editor" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">&times;</a>
-                <h3>Edit Qualification</h3>
-            </div>
-            <input type="hidden" id="QualId" />
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label req">Name</label>
-                            <input type="text" id="NameModal" placeholder="Enter the qualification name" class="form-control" />
-
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label req">Type</label>
-                            <input type="text" id="TypeModal" placeholder="Certificate IV, Diploma, etc.." class="form-control" />
-
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label req">Institution</label>
-                            <input type="text" id="InstitutionModal" placeholder="Enter the name of the institution" class="form-control" />
-
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                <label class="control-label req">Date Aquired</label>
-                            </div>
-                            <input id="DateAquiredModal" name="DateAquired" />
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Other Information</label>
-                            <textarea id="OtherInfoModal" rows="10" placeholder="Enter other relevant information" class="form-control"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a class="btn" data-dismiss="modal">Cancel</a>
-                <a id="saveChangesModal" class="btn btn-primary">Save Changes</a>
-            </div>
+            @Html.Partial("_UpdateQualificationPartial", Model.UpdateQualificationViewModel)
         </div>
     </div>
 </div>
 
 
 
+
 <script>
-var resumeDraftId = @Model.Id;
+var resumeDraftId = @ViewData["resumeDraftId"];
 </script>
 
 <script id="qualifications-template" type="text/x-handlebars-template">
@@ -113,7 +72,7 @@ var resumeDraftId = @Model.Id;
             <tr>
                 <td>{{name}}</td>
                 <td>{{type}}</td>
-                <td>{{formatDate dateAquired "MMMM - YYYY"}}</td>
+                <td>{{formatDate dateAquired "YYYY - MMMM"}}</td>
                 <td>
                     <button type="button" class="btn viewQual" data-id="{{id}}"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></button>
                     <button type="button" href="#qualification-editor" data-id="{{id}}" data-toggle="modal" class="btn editQual"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></button>
