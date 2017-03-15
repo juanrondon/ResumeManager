@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using ResumeManager.DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ResumeManager.Services
@@ -15,7 +12,7 @@ namespace ResumeManager.Services
         public UserApplicationService(ResumeManagerDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<ResumeApplicationService>();
+            _logger = loggerFactory.CreateLogger<UserApplicationService>();
         }
 
         //Registers a new user in the local db

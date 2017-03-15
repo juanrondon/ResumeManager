@@ -6,7 +6,7 @@ namespace ResumeManager.UI.Models.ResumeDraft
     public class ResumeDraftIndexViewModel
     {
         public int Id { get; set; }
-        [Display(Name = "Name")]
+        [Display(Name = "School")]
         public string FullName { get; set; }
         [Display(Name = "Last Modified")]
         [DisplayFormat(DataFormatString = "{0:dddd, MMM d yyyy}")]

@@ -16,139 +16,29 @@ namespace ResumeManager.Migrations
                 .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Course", b =>
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.FieldOfStudy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CourseName")
-                        .IsRequired();
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("InstitutionName");
-
-                    b.Property<string>("OtherInformation");
-
-                    b.Property<int>("ResumeId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeId");
-
-                    b.ToTable("Courses");
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.DraftCourse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CourseName")
-                        .IsRequired();
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("InstitutionName");
-
-                    b.Property<string>("OtherInformation");
-
-                    b.Property<int>("ResumeDraftId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeDraftId");
-
-                    b.ToTable("DraftCourses");
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.DraftJob", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired();
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("JobTitle")
-                        .IsRequired();
-
-                    b.Property<string>("OtherInformation");
-
-                    b.Property<string>("Responsabilities")
-                        .IsRequired();
-
-                    b.Property<int>("ResumeDraftId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeDraftId");
-
-                    b.ToTable("DraftJobs");
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.DraftQualification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateAquired");
-
-                    b.Property<string>("InstitutionName")
-                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("OtherInformation");
-
-                    b.Property<int>("ResumeDraftId");
-
-                    b.Property<string>("Type")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ResumeDraftId");
-
-                    b.ToTable("DraftQualifications");
+                    b.ToTable("FieldOfStudies");
                 });
 
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Job", b =>
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.Interest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CompanyName")
-                        .IsRequired();
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("JobTitle")
-                        .IsRequired();
-
-                    b.Property<string>("OtherInformation");
-
-                    b.Property<string>("Responsabilities")
-                        .IsRequired();
-
-                    b.Property<int>("ResumeId");
-
-                    b.Property<DateTime>("StartDate");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResumeId");
-
-                    b.ToTable("Jobs");
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Language", b =>
@@ -162,33 +52,6 @@ namespace ResumeManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Qualification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateAquired");
-
-                    b.Property<string>("InstitutionName")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("OtherInformation");
-
-                    b.Property<int>("ResumeId");
-
-                    b.Property<string>("Type")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeId");
-
-                    b.ToTable("Qualifications");
                 });
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Resume", b =>
@@ -208,9 +71,6 @@ namespace ResumeManager.Migrations
                         .IsRequired();
 
                     b.Property<string>("GitHub");
-
-                    b.Property<string>("Interests")
-                        .IsRequired();
 
                     b.Property<string>("LastName")
                         .IsRequired();
@@ -256,8 +116,6 @@ namespace ResumeManager.Migrations
 
                     b.Property<string>("GitHub");
 
-                    b.Property<string>("Interests");
-
                     b.Property<string>("LastName");
 
                     b.Property<string>("LinkedIn");
@@ -287,6 +145,79 @@ namespace ResumeManager.Migrations
                     b.ToTable("ResumeDrafts");
                 });
 
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftEducation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Degree");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("FieldOfStudy");
+
+                    b.Property<int?>("FromYear");
+
+                    b.Property<string>("Grade");
+
+                    b.Property<int>("ResumeDraftId");
+
+                    b.Property<string>("School");
+
+                    b.Property<int?>("ToYear");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeDraftId");
+
+                    b.ToTable("DraftEducations");
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftExperience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Company");
+
+                    b.Property<bool>("CurrentlyWorking");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("Location");
+
+                    b.Property<int>("ResumeDraftId");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeDraftId");
+
+                    b.ToTable("DraftExperiences");
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftInterest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("InterestName")
+                        .IsRequired();
+
+                    b.Property<int>("ResumeDraftId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeDraftId");
+
+                    b.ToTable("ResumeDraftInterests");
+                });
+
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftLanguage", b =>
                 {
                     b.Property<int>("Id")
@@ -301,44 +232,149 @@ namespace ResumeManager.Migrations
 
                     b.HasIndex("ResumeDraftId");
 
+                    b.HasIndex("LanguageName", "ResumeDraftId")
+                        .IsUnique();
+
                     b.ToTable("ResumeDraftLanguages");
                 });
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftSkill", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("ResumeDraftId");
 
-                    b.Property<string>("SkillName");
+                    b.Property<string>("SkillName")
+                        .IsRequired();
 
-                    b.Property<int>("Id");
+                    b.HasKey("Id");
 
-                    b.HasKey("ResumeDraftId", "SkillName");
+                    b.HasIndex("ResumeDraftId");
+
+                    b.HasIndex("SkillName", "ResumeDraftId")
+                        .IsUnique();
 
                     b.ToTable("ResumeDraftSkills");
                 });
 
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeEducation", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Degree")
+                        .IsRequired();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("FieldOfStudy");
+
+                    b.Property<int?>("FromYear");
+
+                    b.Property<string>("Grade");
+
                     b.Property<int>("ResumeId");
 
-                    b.Property<string>("LanguageName");
+                    b.Property<string>("School")
+                        .IsRequired();
 
-                    b.Property<int>("Id");
+                    b.Property<int?>("ToYear");
 
-                    b.HasKey("ResumeId", "LanguageName");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeId");
+
+                    b.ToTable("Educations");
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeExperience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Company")
+                        .IsRequired();
+
+                    b.Property<bool>("CurrentlyWorking");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("Location");
+
+                    b.Property<int>("ResumeId");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeId");
+
+                    b.ToTable("Experiences");
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeInterest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("InterestName")
+                        .IsRequired();
+
+                    b.Property<int?>("ResumeDraftId");
+
+                    b.Property<int>("ResumeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeDraftId");
+
+                    b.HasIndex("ResumeId");
+
+                    b.ToTable("ResumeInterests");
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeLanguage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired();
+
+                    b.Property<int>("ResumeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResumeId");
+
+                    b.HasIndex("LanguageName", "ResumeId")
+                        .IsUnique();
 
                     b.ToTable("ResumeLanguages");
                 });
 
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeSkill", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("ResumeId");
 
-                    b.Property<string>("SkillName");
+                    b.Property<string>("SkillName")
+                        .IsRequired();
 
-                    b.Property<int>("Id");
+                    b.HasKey("Id");
 
-                    b.HasKey("ResumeId", "SkillName");
+                    b.HasIndex("ResumeId");
+
+                    b.HasIndex("SkillName", "ResumeId")
+                        .IsUnique();
 
                     b.ToTable("ResumeSkills");
                 });
@@ -369,54 +405,6 @@ namespace ResumeManager.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Course", b =>
-                {
-                    b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
-                        .WithMany("ResumeCourses")
-                        .HasForeignKey("ResumeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.DraftCourse", b =>
-                {
-                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
-                        .WithMany("DraftCourses")
-                        .HasForeignKey("ResumeDraftId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.DraftJob", b =>
-                {
-                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
-                        .WithMany("DraftJobs")
-                        .HasForeignKey("ResumeDraftId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.DraftQualification", b =>
-                {
-                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
-                        .WithMany("DraftQualifications")
-                        .HasForeignKey("ResumeDraftId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Job", b =>
-                {
-                    b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
-                        .WithMany("ResumeJobs")
-                        .HasForeignKey("ResumeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ResumeManager.DataAccess.Models.Qualification", b =>
-                {
-                    b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
-                        .WithMany("ResumeQualifications")
-                        .HasForeignKey("ResumeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Resume", b =>
                 {
                     b.HasOne("ResumeManager.DataAccess.Models.User", "User")
@@ -436,6 +424,30 @@ namespace ResumeManager.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftEducation", b =>
+                {
+                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
+                        .WithMany("ResumeDraftEducations")
+                        .HasForeignKey("ResumeDraftId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftExperience", b =>
+                {
+                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
+                        .WithMany("ResumeDraftExperiences")
+                        .HasForeignKey("ResumeDraftId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftInterest", b =>
+                {
+                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
+                        .WithMany("ResumeDraftInterests")
+                        .HasForeignKey("ResumeDraftId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeDraftLanguage", b =>
                 {
                     b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
@@ -449,6 +461,34 @@ namespace ResumeManager.Migrations
                     b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "ResumeDraft")
                         .WithMany("ResumeDraftSkills")
                         .HasForeignKey("ResumeDraftId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeEducation", b =>
+                {
+                    b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
+                        .WithMany("ResumeEducations")
+                        .HasForeignKey("ResumeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeExperience", b =>
+                {
+                    b.HasOne("ResumeManager.DataAccess.Models.Resume", "Resume")
+                        .WithMany("ResumeExperiences")
+                        .HasForeignKey("ResumeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.ResumeInterest", b =>
+                {
+                    b.HasOne("ResumeManager.DataAccess.Models.ResumeDraft", "Resume")
+                        .WithMany()
+                        .HasForeignKey("ResumeDraftId");
+
+                    b.HasOne("ResumeManager.DataAccess.Models.Resume")
+                        .WithMany("ResumeInterests")
+                        .HasForeignKey("ResumeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

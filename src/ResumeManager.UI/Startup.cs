@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using ResumeManager.DataAccess.Models;
 using ResumeManager.Services;
-using ResumeManager.Migrations;
 
 namespace ResumeManager.UI
 {
@@ -16,7 +15,7 @@ namespace ResumeManager.UI
         public Startup(IHostingEnvironment env)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.RollingFile("logs\\log-{Date}.txt")
+                .WriteTo.RollingFile("logs/log-{Date}.txt")
                 .CreateLogger();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -38,11 +37,10 @@ namespace ResumeManager.UI
             
             services.AddScoped<ResumeDraftApplicationService>();
             services.AddScoped<UserApplicationService>();
-            services.AddTransient<SeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SeedData seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -77,9 +75,6 @@ namespace ResumeManager.UI
             });
 
             app.UseStaticFiles();
-
-            //Seed initial data to DB
-            seeder.Seed();
 
             app.UseMvc(routes =>
             {

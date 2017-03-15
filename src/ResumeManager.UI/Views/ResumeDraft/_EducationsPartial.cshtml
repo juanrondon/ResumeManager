@@ -1,0 +1,114 @@
+@model ResumeManager.UI.Models.DraftEducation.EducationViewModels
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.AddEducationViewModel.School" class="control-label req"></label>
+                <input id="School" asp-for="@Model.AddEducationViewModel.School" placeholder="School name (ex. UTS University)" class="form-control" />
+                <span asp-validation-for="@Model.AddEducationViewModel.School" id="SchoolError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AddEducationViewModel.Degree" class="control-label req"></label>
+                <input id="Degree" asp-for="@Model.AddEducationViewModel.Degree" placeholder="Certificate IV, Diploma, etc.." class="form-control" />
+                <span asp-validation-for="@Model.AddEducationViewModel.Degree" id="DegreeError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AddEducationViewModel.FieldOfStudy" class="control-label"></label>
+                <input asp-for="@Model.AddEducationViewModel.FieldOfStudy" id="FieldOfStudy" placeholder="Field of study (ex. Bussiness)" class="form-control" />
+                <span asp-validation-for="@Model.AddEducationViewModel.FieldOfStudy" id="FieldOfStudyError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AddEducationViewModel.Grade" class="control-label"></label>
+                <input asp-for="@Model.AddEducationViewModel.Grade" id="Grade" class="form-control" />
+            </div>
+            <div>
+                <div class="form-group col-md-5">
+                    <div>
+                        <label asp-for="@Model.AddEducationViewModel.FromYear" class="control-label"></label>
+                    </div>
+                    <input id="FromYear" placeholder="Year" class="form-control" asp-for="@Model.AddEducationViewModel.FromYear" />
+                    <span asp-validation-for="@Model.AddEducationViewModel.FromYear" id="FromYearError" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-5">
+                    <div>
+                        <label asp-for="@Model.AddEducationViewModel.ToYear" class="control-label"></label>
+                    </div>
+                    <input id="ToYear" placeholder="Year" class="form-control" asp-for="@Model.AddEducationViewModel.ToYear" />
+                    <span asp-validation-for="@Model.AddEducationViewModel.ToYear" id="ToYearError" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.AddEducationViewModel.Description" class="control-label"></label>
+                <textarea id="Description" asp-for="@Model.AddEducationViewModel.Description" rows="12" placeholder="Enter other relevant information" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="button" id="addEducation" class="btn btn-primary">Add Education</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="EducationListContainer"></div>
+
+
+@* Update Education Modal form *@
+<div class="modal fade" id="education-editor" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            @Html.Partial("_UpdateEducationPartial", Model.UpdateEducationViewModel)
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var resumeDraftId = @ViewData["resumeDraftId"];
+</script>
+
+<script id="educations-template" type="text/x-handlebars-template">
+    <div id="educationsPanel" class="panel panel-primary">
+        <div class="panel-heading text-center"><strong>Education</strong></div>
+        <table class="table table-hover table-responsive">
+            <tbody>
+                {{#each education}}
+                <tr>
+                    <td>
+                        <strong>{{school}}</strong><br />
+                        {{degree}}
+                        {{#if fieldOfStudy}}
+                        - {{fieldOfStudy}}
+                        {{/if}}
+                        {{#if grade}}
+                        - {{grade}}
+                        {{/if}}
+                        <br />
+                        {{#ifCond fromYear "&&" toYear}}                       
+                                <small>{{fromYear}} - {{toYear}}</small><br />                        
+                        {{else}}
+                            {{#if toYear}}
+                                <small>{{toYear}}</small><br />
+                            {{else}}                            
+                                <small>{{fromYear}}</small><br />
+                            {{/if}}
+                        {{/ifCond}}
+                        {{#if description}}
+                        <a data-toggle="collapse" class="showHide" data-target="#desc{{id}}">See Description</a>
+                        <div id="desc{{id}}" class="collapse">
+                            <p class="description">{{description}}</p>
+                        </div>
+                        {{/if}}
+                    </td>
+                    <td class="text-right">
+                        <button type="button" href="#education-editor" data-id="{{id}}" data-toggle="modal" class="btn btn-sm editEdu"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-sm removeEdu" data-id="{{id}}"><i class="fa fa-times text-danger fa-lg" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>

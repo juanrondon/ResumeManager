@@ -67,12 +67,12 @@
     <script>
         (function () {
             $(document).ready(function () {
-                var item_to_delete;
-                $(".deleteItem").click(function (e) {
-                    item_to_delete = $(this).data('id');
+                var itemToDelete;
+                $(".deleteItem").click(function () {
+                    itemToDelete = $(this).data('id');
                 });
                 $('#btnContinueDelete').click(function () {
-                    window.location = "/ResumeDraft/Delete?resumeDraftId=" + item_to_delete;
+                    window.location = "/ResumeDraft/Delete?resumeDraftId=" + itemToDelete;
                 });
             });
         })();

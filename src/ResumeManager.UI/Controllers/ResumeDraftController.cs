@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ResumeManager.DataAccess.Models;
 using ResumeManager.Services;
-using ResumeManager.DataAccess.Enums;
 using ResumeManager.UI.Models.ResumeDraft;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ResumeManager.Commands.ResumeDraft;
@@ -11,7 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System;
-using ResumeManager.UI.Models.DraftQualification;
+using ResumeManager.Commands.DraftEducation;
+using ResumeManager.DataAccess.Models.Enums;
+using ResumeManager.UI.Models.DraftEducation;
 
 namespace ResumeManager.UI.Controllers
 {
@@ -57,7 +58,6 @@ namespace ResumeManager.UI.Controllers
                     FirstName = existingResumeDraft.FirstName,
                     Email = existingResumeDraft.Email,
                     GitHub = existingResumeDraft.GitHub,
-                    Interests = existingResumeDraft.Interests,
                     LastName = existingResumeDraft.LastName,
                     LinkedIn = existingResumeDraft.LinkedIn,
                     Mobile = existingResumeDraft.Mobile,
@@ -86,7 +86,7 @@ namespace ResumeManager.UI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(ResumeDraftCreateViewModel model, IFormFile profilePhoto)
-        {            
+        {
             var command = new UpdateResumeDraftCommand
             {
                 Address = model.Address,
@@ -94,7 +94,6 @@ namespace ResumeManager.UI.Controllers
                 FirstName = model.FirstName,
                 GitHub = model.GitHub,
                 Id = model.Id,
-                Interests = model.Interests,
                 LastName = model.LastName,
                 LinkedIn = model.LinkedIn,
                 Mobile = model.Mobile,
@@ -115,7 +114,7 @@ namespace ResumeManager.UI.Controllers
                 }
             }
             await _resumeDraftService.UpdateResumeDraft(command);
-            return RedirectToAction("Index");          
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int resumeDraftId)
@@ -134,7 +133,7 @@ namespace ResumeManager.UI.Controllers
         public async Task<IActionResult> GetSkills(int resumeDraftId)
         {
             var list = await _resumeDraftService.GetSkills(resumeDraftId);
-            var objectList = list.Select(q => new { name = q.SkillName, id = q.Id}).ToList();
+            var objectList = list.Select(q => new { name = q.SkillName, id = q.Id }).ToList();
             return Ok(objectList);
         }
 
@@ -146,7 +145,7 @@ namespace ResumeManager.UI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> AddSkill(int resumeDraftId, string skill)
-        {           
+        {
             if (skill == null)
             {
                 ModelState.AddModelError("Skill", "The Skill field is required.");
@@ -183,8 +182,8 @@ namespace ResumeManager.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddQualification(AddQualificationViewModel model)
-        {           
+        public async Task<IActionResult> AddEducation(AddEducationViewModel model)
+        {
             if (!ModelState.IsValid)
             {
                 var result = from ms in ModelState
@@ -195,21 +194,23 @@ namespace ResumeManager.UI.Controllers
                              select new { fieldKey, error.ErrorMessage };
                 return BadRequest(result);
             }
-            var command = new AddQualificationCommand
+            var command = new AddEducationCommand
             {
-                Name = model.Name,
-                DateAquired = model.DateAquired,
-                Institution = model.Institution,
-                OtherInfo = model.OtherInfo,
+                School = model.School,
+                Degree = model.Degree,
+                FieldOfStudy = model.FieldOfStudy,
+                FromYear = model.FromYear,
                 ResumeDraftId = model.ResumeDraftId,
-                Type = model.Type
+                ToYear = model.ToYear,
+                Description = model.Description,
+                Grade = model.Grade
             };
-            await _resumeDraftService.AddQualification(command);
+            await _resumeDraftService.AddEducation(command);
             return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateDraftQualification(UpdateQualificationViewModel model)
+        public async Task<IActionResult> UpdateDraftEducation(UpdateEducationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -221,47 +222,96 @@ namespace ResumeManager.UI.Controllers
                              select new { fieldKey, error.ErrorMessage };
                 return BadRequest(result);
             }
-            var command = new UpdateQualificationCommand
+            var command = new UpdateEducationCommand
             {
-                DraftQualId = model.DraftQualificationId,
-                Name = model.Name,
-                DateAquired = model.DateAquired,
-                Institution = model.Institution,
-                OtherInfo = model.OtherInfo,
-                Type = model.Type
+                DraftEducationId = model.DraftEducationId,
+                School = model.School,
+                Degree = model.Degree,
+                FieldOfStudy = model.FieldOfStudy,
+                FromYear = model.FromYear,
+                ToYear = model.ToYear,
+                Description = model.Description,
+                Grade = model.Grade
             };
-            await _resumeDraftService.UpdateQualification(command);
+            await _resumeDraftService.UpdateEducation(command);
             return Ok();
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetQualifications(int resumeDraftId)
+        public async Task<IActionResult> GetEducations(int resumeDraftId)
         {
-            var list = await _resumeDraftService.GetQualifications(resumeDraftId);
-            var objectList = list.Select(q => new { name = q.Name, type = q.Type, institution = q.InstitutionName, dateAquired = q.DateAquired, otherInfo = q.OtherInformation, id = q.Id }).ToList();
+            var list = await _resumeDraftService.GetEducations(resumeDraftId);
+            var objectList = list.Select(e => new
+            {
+                school = e.School,
+                degree = e.Degree,
+                fieldOfStudy = e.FieldOfStudy,
+                description = e.Description,
+                fromYear = e.FromYear,
+                toYear = e.ToYear,
+                grade = e.Grade,
+                id = e.Id
+            }).ToList();
             return Ok(objectList);
         }
 
         [HttpPost]
-        public async Task RemoveQualification(int draftQualificationId)
+        public async Task RemoveEducation(int draftEducationId)
         {
-            await _resumeDraftService.RemoveQualification(draftQualificationId);
+            await _resumeDraftService.RemoveEducation(draftEducationId);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDraftQualification(int draftQualificationId)
+        public async Task<IActionResult> GetDraftEducation(int draftEducationId)
         {
-            var qualification = await _resumeDraftService.GetQualification(draftQualificationId);
-            var qual = new
+            var education = await _resumeDraftService.GetEducation(draftEducationId);
+            var edu = new
             {
-                name = qualification.Name,
-                type = qualification.Type,
-                institution = qualification.InstitutionName,
-                dateAquired = qualification.DateAquired,
-                otherInfo = qualification.OtherInformation,
-                id = qualification.Id
+                school = education.School,
+                degree = education.Degree,
+                fieldOfStudy = education.FieldOfStudy,
+                description = education.Description,
+                fromYear = education.FromYear,
+                toYear = education.ToYear,
+                grade = education.Grade,
+                id = education.Id
             };
-            return Ok(qual);
+            return Ok(edu);
+        }
+
+        public IActionResult DraftPreview(int resumeDraftId)
+        {
+            ViewBag.ResumeDraftId = resumeDraftId;
+            return View();
+        }
+
+        public async Task<IActionResult> CreatePreview(int resumeDraftId)
+        {
+            var draft = await _resumeDraftService.GetResumeDraftById(resumeDraftId);
+            var model = new ResumeDraftPreviewViewModel
+            {
+                FullName = draft.FirstName + " " + draft.LastName,
+                Email = draft.Email,
+                Mobile = draft.Mobile,
+                Address = draft.Address,
+                GitHub = draft.GitHub,
+                LinkedIn = draft.LinkedIn,
+                Languages = draft.ResumeDraftLanguages.Select(l => l.LanguageName).ToList(),
+                Skills = draft.ResumeDraftSkills.Select(l => l.SkillName).ToList(),
+                PersonalSkills = draft.PersonalSkills,
+                DraftEducations = draft.ResumeDraftEducations.Select(de => new PreviewEducationViewModel
+                    {
+                        School = de.School,
+                        Degree = de.Degree,
+                        FieldOfStudy = de.FieldOfStudy,
+                        FromYear = de.FromYear,
+                        ToYear = de.ToYear,
+                        Grade = de.Grade,
+                        Description = de.Description
+                    })
+                    .ToList()
+            };
+            return Ok(model);
         }
     }
 }

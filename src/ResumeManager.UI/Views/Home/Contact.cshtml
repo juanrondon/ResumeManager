@@ -1,17 +1,160 @@
-﻿@{
-    ViewData["Title"] = "Contact";
+﻿@*@{
+        ViewData["Title"] = "Contact";
+    }
+    <h2>@ViewData["Title"].</h2>
+    <h3>@ViewData["Message"]</h3>
+
+    <address>
+        One Microsoft Way<br />
+        Redmond, WA 98052-6399<br />
+        <abbr title="Phone">P:</abbr>
+        425.555.0100
+    </address>
+
+    <address>
+        <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
+        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    </address>*@
+<div class="page-container hidden-on-narrow">
+    <div class="pdf-page size-a4">
+        <div class="pdf-header">
+            <span class="company-logo">
+
+            </span>
+            <span class="invoice-number">Invoice #23543</span>
+        </div>
+        <div class="pdf-footer">
+            <p>
+                Blauer See Delikatessen<br />
+                Lützowplatz 456<br />
+                Berlin, Germany,  10785
+            </p>
+        </div>
+        <div class="for">
+            <h3>Invoice For</h3>
+            <p>
+                Antonio Moreno<br />
+                Naucalpan de Juárez<br />
+                México D.F., Mexico, 53500
+            </p>
+        </div>
+
+        <div class="from">
+            <h3>From</h3>
+            <p style="padding-bottom: 20px; border-bottom: 1px solid #e5e5e5;">
+                Hanna Moos <br />
+                Lützowplatz 456<br />
+                Berlin, Germany,  10785
+            </p>
+            <p style="padding-top: 20px;">
+                Invoice ID: 23543<br />
+                Invoice Date: 12.03.2014<br />
+                Due Date: 27.03.2014
+            </p>
+        </div>
+        <div class="pdf-body">
+            <div id="grid"></div>
+            <p class="signature">
+                Signature: ________________ <br /><br />
+                Date: 12.03.2014
+            </p>
+        </div>
+        <div class="pdf-footer">
+            <p>
+                Blauer See Delikatessen<br />
+                Lützowplatz 456<br />
+                Berlin, Germany,  10785
+            </p>
+        </div>
+        <div class="for">
+            <h3>Invoice For</h3>
+            <p>
+                Antonio Moreno<br />
+                Naucalpan de Juárez<br />
+                México D.F., Mexico, 53500
+            </p>
+        </div>
+
+        <div class="from">
+            <h3>From</h3>
+            <p style="padding-bottom: 20px; border-bottom: 1px solid #e5e5e5;">
+                Hanna Moos <br />
+                Lützowplatz 456<br />
+                Berlin, Germany,  10785
+            </p>
+            <p style="padding-top: 20px;">
+                Invoice ID: 23543<br />
+                Invoice Date: 12.03.2014<br />
+                Due Date: 27.03.2014
+            </p>
+        </div>
+        <div class="pdf-body">
+            <div id="grid"></div>
+            <p class="signature">
+                Signature: ________________ <br /><br />
+                Date: 12.03.2014
+            </p>
+        </div>
+        <div class="pdf-footer">
+            <p>
+                Blauer See Delikatessen<br />
+                Lützowplatz 456<br />
+                Berlin, Germany,  10785
+            </p>
+        </div>
+        <div class="for">
+            <h3>Invoice For</h3>
+            <p>
+                Antonio Moreno<br />
+                Naucalpan de Juárez<br />
+                México D.F., Mexico, 53500
+            </p>
+        </div>
+
+        <div class="from">
+            <h3>From</h3>
+            <p style="padding-bottom: 20px; border-bottom: 1px solid #e5e5e5;">
+                Hanna Moos <br />
+                Lützowplatz 456<br />
+                Berlin, Germany,  10785
+            </p>
+            <p style="padding-top: 20px;">
+                Invoice ID: 23543<br />
+                Invoice Date: 12.03.2014<br />
+                Due Date: 27.03.2014
+            </p>
+        </div>
+        <div class="pdf-body">
+            <div id="grid"></div>
+            <p class="signature">
+                Signature: ________________ <br /><br />
+                Date: 12.03.2014
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="box-col">
+    <h4>Get PDF</h4>
+    <button class="export-pdf k-button" id="save">Export</button>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        (function () {
+            $(document).ready(function () {
+
+                $("#save").click(function () {
+                    kendo.drawing.drawDOM($('.pdf-page')).then(function (group) {
+                        kendo.drawing.pdf.saveAs(group, "Invoice.pdf");
+                    });
+                });
+            });
+
+        })();
+
+
+    </script>
 }
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>

@@ -53,6 +53,10 @@ footer {
     /* Set the fixed height of the footer here */
     height: 50px;
 }
+
+.nav-tabs {
+    margin-bottom: 35px;
+}
 /* -------------- Home page -------------- */
 .tagline {
     text-shadow: 0 0 10px #000;
@@ -113,15 +117,6 @@ footer {
     margin-left: 13px;
 }
 
-#skillLbl {
-    margin-right: 10px;
-}
-
-#content-placeholder td {
-    border: none;
-    text-align: left;
-}
-
 .k-autocomplete {
     width: 400px;
     vertical-align: middle;
@@ -131,14 +126,75 @@ footer {
     text-align: right;
 }
 
-.hov {
-    max-width: 550px;
-    font-size: large;
+/*skills*/
+#skillsPanel {
+    max-width: 400px;
+    margin-left: 30px;
+    margin-top: 30px;
 }
 
-    .hov:hover {
-        background-color: #f2f2f2;
+
+
+/*education*/
+.description {
+    white-space: pre-wrap;
+    margin-top: 5px;
+}
+
+#educationsPanel {
+    margin-top: 30px;
+    margin-left: 15px;
+    max-width: 850px;
+}
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 70%;
+        max-width:1100px;
     }
+}
+.k-widget.k-datepicker.k-header {
+    width: 100px;
+}
 
 
-/*qualification*/
+
+/*borarr*/
+.pdf-page {
+    margin: 0 auto;
+    box-sizing: border-box;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.3);
+    background-color: #fff;
+    color: #333;
+    position: relative;
+}
+.pdf-header {
+    position: absolute;
+    top: .5in;
+    height: .6in;
+    left: .5in;
+    right: .5in;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.pdf-footer {
+    position: absolute;
+    bottom: .5in;
+    height: .6in;
+    left: .5in;
+    right: .5in;
+    padding-top: 10px;
+    border-top: 1px solid #e5e5e5;
+    text-align: left;
+    color: #787878;
+    font-size: 12px;
+}
+.pdf-body {
+    position: absolute;
+    top: 3.7in;
+    bottom: 1.2in;
+    left: .5in;
+    right: .5in;
+}
+
+.size-a4 { width: 8.3in; height: 11.7in; }

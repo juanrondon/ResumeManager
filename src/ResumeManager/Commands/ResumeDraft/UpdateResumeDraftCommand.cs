@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ResumeManager.Commands.ResumeDraft
 {
@@ -28,8 +27,6 @@ namespace ResumeManager.Commands.ResumeDraft
         public List<int> ResumeDraftLanguagesIds { get; set; }
 
         public string PersonalSkills { get; set; }
-                
-        public string Interests { get; set; }
 
         public string References { get; set; }
 

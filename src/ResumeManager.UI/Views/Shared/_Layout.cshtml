@@ -8,13 +8,15 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/lib/Font-Awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/lib/kendo-ui-core/styles/kendo.common-bootstrap.core.min.css" rel="stylesheet" />
-        <link href="~/lib/kendo-ui-core/styles/kendo.bootstrap.min.css" rel="stylesheet" />
-        <link href="~/lib/kendo-ui-core/styles/kendo.bootstrap.mobile.min.css" rel="stylesheet" />        
+        <link href="~/lib/kendo-ui/styles/kendo.common-bootstrap.core.min.css" rel="stylesheet" />
+        <link href="~/lib/kendo-ui/styles/kendo.bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/kendo-ui/styles/kendo.bootstrap.mobile.min.css" rel="stylesheet" />
         <link href="~/lib/trix/dist/trix.css" rel="stylesheet" />
         <link href="~/css/site.css" rel="stylesheet" />
-        
     </environment>
+
+    @RenderSection("css", required: false)
+
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
@@ -44,9 +46,9 @@
 
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li class='dropdown' style='margin-right:10px;'>
-                        <a href='' class='dropdown-toggle nav' data-toggle='dropdown'><i class='fa fa-user swlOrange'></i> <span class='caret'></span></a>
-                        <ul class='dropdown-menu' role='menu'>
+                    <li class="dropdown" style="margin-right:10px;">
+                        <a class="dropdown-toggle nav" data-toggle="dropdown"><i class="fa fa-user"></i> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
                             @if (!User.Identity.IsAuthenticated)
                             {
                                 <li class='dropdown-header'>Create a <i>new</i> account</li>
@@ -60,7 +62,7 @@
                             }
                             else
                             {
-                                <li><a href='account.php'><i class='fa fa-user'></i> Account</a></li>
+                                <li><a><i class='fa fa-user'></i> Account</a></li>
                                 <li class='divider'></li>
                                 <li>
                                     <a asp-controller="User" asp-action="Logout"><i class='fa fa-sign-out'></i> Logout</a>
@@ -83,8 +85,8 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/kendo-ui-core/js/kendo.ui.core.min.js"></script>
-        <script src="~/lib/trix/dist/trix.js"></script>        
+        <script src="~/lib/Kendo-ui/js/kendo.all.min.js"></script>
+        <script src="~/lib/trix/dist/trix.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

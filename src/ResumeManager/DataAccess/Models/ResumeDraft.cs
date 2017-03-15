@@ -31,13 +31,11 @@ namespace ResumeManager.DataAccess.Models
 
         public string PersonalSkills { get; set; }
 
-        public List<DraftJob> DraftJobs { get; set; }
+        public List<ResumeDraftExperience> ResumeDraftExperiences { get; set; }
 
-        public List<DraftQualification> DraftQualifications { get; set; }
+        public List<ResumeDraftEducation> ResumeDraftEducations { get; set; }
 
-        public List<DraftCourse> DraftCourses { get; set; }
-
-        public string Interests { get; set; }
+        public List<ResumeDraftInterest> ResumeDraftInterests { get; set; }
 
         public string References { get; set; }
 
@@ -59,9 +57,9 @@ namespace ResumeManager.DataAccess.Models
         {
             ResumeDraftLanguages = new List<ResumeDraftLanguage>();
             ResumeDraftSkills = new List<ResumeDraftSkill>();
-            DraftCourses = new List<DraftCourse>();
-            DraftJobs = new List<DraftJob>();
-            DraftQualifications = new List<DraftQualification>();
+            ResumeDraftExperiences = new List<ResumeDraftExperience>();
+            ResumeDraftEducations = new List<ResumeDraftEducation>();
+            ResumeDraftInterests = new List<ResumeDraftInterest>();
         }
     }
 }

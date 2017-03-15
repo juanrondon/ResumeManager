@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using ResumeManager.Commands.ResumeDraft;
-using ResumeManager.DataAccess.Enums;
-using ResumeManager.DataAccess.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ResumeManager.Commands.DraftEducation;
+using ResumeManager.Commands.ResumeDraft;
+using ResumeManager.DataAccess.Models;
+using ResumeManager.DataAccess.Models.Enums;
 
 namespace ResumeManager.Services
 {
@@ -19,7 +20,7 @@ namespace ResumeManager.Services
         public ResumeDraftApplicationService(ResumeManagerDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<ResumeApplicationService>();
+            _logger = loggerFactory.CreateLogger<ResumeDraftApplicationService>();
         }
 
         public async Task<ResumeDraft> GetResumeDraftById(int resumeDraftId)
@@ -27,29 +28,31 @@ namespace ResumeManager.Services
             var resumeDraft = await _context.ResumeDrafts
                 .Include(rd => rd.ResumeDraftLanguages)
                 .Include(rd => rd.ResumeDraftSkills)
-                .Include(rd => rd.DraftQualifications)
+                .Include(rd => rd.ResumeDraftEducations)
                 .FirstOrDefaultAsync(rd => rd.Id == resumeDraftId);
             if (resumeDraft == null)
-            {
-                _logger.LogError(0, new InvalidOperationException(), "No resumeDrafts found in the database for selected user.");
-            }
+                _logger.LogError(0, new InvalidOperationException(),
+                    "No resumeDrafts found in the database for selected user.");
             return resumeDraft;
         }
 
         public async Task<List<int>> GetLanguageIds(int resumeDraftId)
         {
-            var languageNames = _context.ResumeDraftLanguages.Where(x => x.ResumeDraftId == resumeDraftId).Select(x => x.LanguageName);
-            var languageIds = await _context.Languages.Where(l => languageNames.Contains(l.Name)).Select(c => c.Id).ToListAsync();
+            var languageNames = _context.ResumeDraftLanguages.Where(x => x.ResumeDraftId == resumeDraftId)
+                .Select(x => x.LanguageName);
+            var languageIds = await _context.Languages.Where(l => languageNames.Contains(l.Name))
+                .Select(c => c.Id)
+                .ToListAsync();
             return languageIds;
         }
 
         public async Task<ResumeDraft> GetResumeDraftByUserId(int userId)
         {
-            var resumeDraft = await _context.ResumeDrafts.Include(r => r.ResumeDraftLanguages).FirstOrDefaultAsync(r => r.UserId == userId);
+            var resumeDraft = await _context.ResumeDrafts.Include(r => r.ResumeDraftLanguages)
+                .FirstOrDefaultAsync(r => r.UserId == userId);
             if (resumeDraft == null)
-            {
-                _logger.LogError(0, new InvalidOperationException(), "No resumeDrafts found in the database for selected user.");
-            }
+                _logger.LogError(0, new InvalidOperationException(),
+                    "No resumeDrafts found in the database for selected user.");
             return resumeDraft;
         }
 
@@ -77,14 +80,14 @@ namespace ResumeManager.Services
             if (resumeDraft == null)
             {
                 _logger.LogError(0, "No Resume Draft found for id {0}.", command.Id);
+                return null;
             }
             resumeDraft.FirstName = command.FirstName;
             resumeDraft.LastName = command.LastName;
             resumeDraft.Email = command.Email;
             resumeDraft.Address = command.Address;
             resumeDraft.DateModified = DateTime.Now;
-            resumeDraft.GitHub = command.GitHub;
-            resumeDraft.Interests = command.Interests;
+            resumeDraft.GitHub = command.GitHub;            
             resumeDraft.LinkedIn = command.LinkedIn;
             resumeDraft.Mobile = command.Mobile;
             resumeDraft.PersonalSkills = command.PersonalSkills;
@@ -100,7 +103,8 @@ namespace ResumeManager.Services
             if (command.ResumeDraftLanguagesIds != null)
             {
                 var languages = _context.Languages.Where(t => command.ResumeDraftLanguagesIds.Contains(t.Id))
-                        .Select(t => new ResumeDraftLanguage { LanguageName = t.Name }).ToList();
+                    .Select(t => new ResumeDraftLanguage { LanguageName = t.Name })
+                    .ToList();
                 if (languages != null)
                     resumeDraft.ResumeDraftLanguages.AddRange(languages);
             }
@@ -130,8 +134,9 @@ namespace ResumeManager.Services
             var resumeDraft = await GetResumeDraftById(resumeDraftId);
             var skillsList = _context.ResumeDraftSkills
                 .Where(rs => rs.ResumeDraftId == resumeDraft.Id)
-                .OrderBy(s => s.SkillName).ToList();
-                
+                .OrderBy(s => s.SkillName)
+                .ToList();
+
             return skillsList;
         }
 
@@ -143,9 +148,7 @@ namespace ResumeManager.Services
         public async Task AddSkill(int resumeDraftId, string skill)
         {
             if (await CheckForExistingSkill(resumeDraftId, skill))
-            {
                 throw new InvalidOperationException("Skill has been assigned already.");
-            }
             var resumeDraftSkill = new ResumeDraftSkill
             {
                 ResumeDraftId = resumeDraftId,
@@ -161,58 +164,66 @@ namespace ResumeManager.Services
             _context.ResumeDraftSkills.Remove(resumeDraftSkill);
             await _context.SaveChangesAsync();
         }
+
         private async Task<bool> CheckForExistingSkill(int resumeDraftId, string skill)
         {
             return await _context.ResumeDraftSkills
-                 .AnyAsync(rds => rds.ResumeDraftId == resumeDraftId && rds.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
+                .AnyAsync(rds => rds.ResumeDraftId == resumeDraftId &&
+                                 rds.SkillName.Equals(skill, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task AddQualification(AddQualificationCommand command)
+        public async Task AddEducation(AddEducationCommand command)
         {
-            var draftQualification = new DraftQualification
+            var draftEducation = new ResumeDraftEducation
             {
-                DateAquired = command.DateAquired,
-                InstitutionName = command.Institution,
-                Name = command.Name,
-                Type = command.Type,
-                OtherInformation = command.OtherInfo,
+                Degree = command.Degree,
+                Description = command.Description,
+                FieldOfStudy = command.FieldOfStudy,
+                Grade = command.Grade,
+                FromYear = command.FromYear,
+                School = command.School,
+                ToYear = command.ToYear,
                 ResumeDraftId = command.ResumeDraftId
             };
-            await _context.DraftQualifications.AddAsync(draftQualification);
+            await _context.DraftEducations.AddAsync(draftEducation);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<DraftQualification>> GetQualifications(int resumeDraftId)
+        public async Task<List<ResumeDraftEducation>> GetEducations(int resumeDraftId)
         {
             var resumeDraft = await GetResumeDraftById(resumeDraftId);
-            var qualificationList = _context.DraftQualifications
-                .Where(rs => rs.ResumeDraftId == resumeDraft.Id).OrderByDescending(q => q.DateAquired).ToList();
+            var educations = _context.DraftEducations
+                .Where(rs => rs.ResumeDraftId == resumeDraft.Id)
+                .OrderByDescending(q => q.ToYear)
+                .ToList();
 
-            return qualificationList;
+            return educations;
         }
 
-        public async Task RemoveQualification(int draftQualificationId)
+        public async Task RemoveEducation(int draftEducationId)
         {
-            var draftQual = await _context.DraftQualifications.FirstOrDefaultAsync(dq => dq.Id == draftQualificationId);
-            _context.DraftQualifications.Remove(draftQual);
+            var draftEducation = await _context.DraftEducations.FirstOrDefaultAsync(dq => dq.Id == draftEducationId);
+            _context.DraftEducations.Remove(draftEducation);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateQualification(UpdateQualificationCommand command)
+        public async Task UpdateEducation(UpdateEducationCommand command)
         {
-            var draftQualification = await GetQualification(command.DraftQualId);
-            draftQualification.DateAquired = command.DateAquired;
-            draftQualification.InstitutionName = command.Institution;
-            draftQualification.Name = command.Name;
-            draftQualification.Type = command.Type;
-            draftQualification.OtherInformation = command.OtherInfo;
+            var draftEducation = await GetEducation(command.DraftEducationId);
+            draftEducation.Degree = command.Degree;
+            draftEducation.ToYear = command.ToYear;
+            draftEducation.Description = command.Description;
+            draftEducation.FieldOfStudy = command.FieldOfStudy;
+            draftEducation.FromYear = command.FromYear;
+            draftEducation.Grade = command.Grade;
+            draftEducation.School = command.School;
             await _context.SaveChangesAsync();
         }
 
 
-        public async Task<DraftQualification> GetQualification(int draftQualId)
+        public async Task<ResumeDraftEducation> GetEducation(int id)
         {
-            var qual = await _context.DraftQualifications.FirstOrDefaultAsync(dq => dq.Id == draftQualId);
+            var qual = await _context.DraftEducations.FirstOrDefaultAsync(dq => dq.Id == id);
             return qual;
         }
     }
