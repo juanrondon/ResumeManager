@@ -1,0 +1,43 @@
+@model ResumeManager.UI.Models.ResumeDraft.ResumeDraftCreateViewModel
+
+<div class="panel-body">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="col-md-1">
+                <label asp-for="@Model.Skill" class="control-label req"></label>
+            </div>
+            <div class="col-md-5">
+                <input asp-for="@Model.Skill" id="Skill" class="form-control" /><br />
+                <span asp-validation-for="@Model.Skill" id="skillError" class="text-danger"></span>
+            </div>
+            <div class="col-md-1">
+                <button type="button" id="addSkill" class="btn btn-primary">Add Skill</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" id="skillsListContainer"></div>
+
+<script>
+var resumeDraftId = @Model.Id;
+</script>
+
+@* Handlebars Template *@
+<script id="skills-template" type="text/x-handlebars-template">
+    <div id="skillsPanel" class="panel panel-primary">
+        <div class="panel-heading text-center"><strong>Skills Assigned</strong></div>
+        <table class="table table-hover table-responsive">
+            <tbody>
+                {{#each skills}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-sm removeSkill" data-id="{{id}}"><i class="fa fa-times text-danger fa-lg" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>

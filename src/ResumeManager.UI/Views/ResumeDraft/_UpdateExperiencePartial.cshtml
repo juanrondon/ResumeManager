@@ -1,0 +1,61 @@
+@model ResumeManager.UI.Models.DraftExperience.UpdateExperienceViewModel
+
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>Edit Education</h3>
+</div>
+<input type="hidden" id="EduId" />
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.School" class="control-label req"></label>
+                <input id="SchoolModal" asp-for="@Model.School" placeholder="School name (ex. UTS University)" class="form-control" />
+                <span asp-validation-for="@Model.School" id="SchoolModalError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Degree" class="control-label req"></label>
+                <input id="DegreeModal" asp-for="@Model.Degree" placeholder="Certificate IV, Diploma, etc.." class="form-control" />
+                <span asp-validation-for="@Model.Degree" id="DegreeModalError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FieldOfStudy" class="control-label"></label>
+                <input asp-for="@Model.FieldOfStudy" id="FieldOfStudyModal" placeholder="Field of study (ex. Bussiness)" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Grade" class="control-label"></label>
+                <input asp-for="@Model.Grade" id="GradeModal" class="form-control" />
+            </div>
+            <div>
+                <div class="form-group col-md-5">
+                    <div>
+                        <label asp-for="@Model.FromYear" class="control-label"></label>
+                    </div>
+                    <input id="FromYearModal" placeholder="Year" class="form-control" asp-for="@Model.FromYear" />
+                    <span asp-validation-for="@Model.FromYear" id="FromYearModalError" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-5">
+                    <div>
+                        <label asp-for="@Model.ToYear" class="control-label"></label>
+                    </div>
+                    <input id="ToYearModal" placeholder="Year" class="form-control" asp-for="@Model.ToYear" />
+                    <span asp-validation-for="@Model.ToYear" id="ToYearModalError" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="control-label"></label>
+                <textarea id="DescriptionModal" asp-for="@Model.Description" rows="9" placeholder="Enter other relevant information" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="button" id="addEducation" class="btn btn-primary">Add Education</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Cancel</a>
+    <a id="saveChangesModal" class="btn btn-primary">Save Changes</a>
+</div>

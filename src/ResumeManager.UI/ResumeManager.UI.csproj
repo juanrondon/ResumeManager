@@ -21,7 +21,10 @@
     <Content Include="wwwroot\js\Education.js" />
     <Content Include="wwwroot\js\Education.min.js" />
     <Content Include="wwwroot\js\ContactDetails.min.js" />
+    <Content Include="wwwroot\js\Experience.js" />
+    <Content Include="wwwroot\js\Experience.min.js" />
     <Content Include="wwwroot\js\site.js" />
+    <Content Include="wwwroot\js\Interest.js" />
     <Content Include="wwwroot\js\Skill.js" />
     <Content Include="wwwroot\lib\kendo-ui\.bower.json" />
     <Content Include="wwwroot\lib\kendo-ui\bower.json" />

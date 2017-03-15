@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using ResumeManager.UI.Models.DraftEducation;
+using ResumeManager.UI.Models.DraftExperience;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -32,6 +33,8 @@ namespace ResumeManager.UI.Models.ResumeDraft
 
         public EducationViewModels EducationViewModels { get; set; }
 
+        public ExperienceViewModels ExperienceViewModels { get; set; }
+
         public string GitHub { get; set; }
 
         public string LinkedIn { get; set; }
@@ -45,9 +48,13 @@ namespace ResumeManager.UI.Models.ResumeDraft
         [Required]
         public string Skill { get; set; }
 
+        [Required]
+        public string Interest { get; set; }
+
         public ResumeDraftCreateViewModel()
         {
             EducationViewModels = new EducationViewModels();
+            ExperienceViewModels = new ExperienceViewModels();
         }
     }
 }

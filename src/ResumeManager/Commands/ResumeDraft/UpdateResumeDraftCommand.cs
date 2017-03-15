@@ -26,6 +26,8 @@ namespace ResumeManager.Commands.ResumeDraft
 
         public List<int> ResumeDraftLanguagesIds { get; set; }
 
+        public List<int> ResumeDraftInterestIds { get; set; }
+
         public string PersonalSkills { get; set; }
 
         public string References { get; set; }

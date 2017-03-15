@@ -4,9 +4,10 @@ namespace ResumeManager.UI.Models.Validators
 {
     public class StartEndYearValidator : ValidationAttribute
     {
+
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var model = (Models.DraftEducation.AddEducationViewModel)validationContext.ObjectInstance;
+            var model = (DraftEducation.AddEducationViewModel)validationContext.ObjectInstance;
             if (model.FromYear != null && model.ToYear != null)
             {
                 var fromYear = model.FromYear.Value;

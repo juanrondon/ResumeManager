@@ -7,7 +7,7 @@
             //get skills from DB
             var getSkills = $.ajax({
                 type: "get",
-                url: "/ResumeDraft/GetSkills",
+                url: "/DraftSkill/GetSkills",
                 data: { resumeDraftId: resumeDraftId }
             });
             getSkills.done(function (skillsList) {
@@ -27,7 +27,7 @@
             var name = $("#Skill").val();
             var addSkill = $.ajax({
                 type: "get",
-                url: "/ResumeDraft/AddSkill",
+                url: "/DraftSkill/AddSkill",
                 data: {
                     resumeDraftId: resumeDraftId,
                     skill: name
@@ -47,7 +47,7 @@
             var id = $(this).data("id");
             var removeSkill = $.ajax({
                 type: "post",
-                url: "/ResumeDraft/RemoveSkill",
+                url: "/DraftSkill/RemoveSkill",
                 data: {
                     skillId: id
                 }
@@ -65,7 +65,7 @@
                 pageSize: 100,
                 transport: {
                     read: {
-                        url: "/ResumeDraft/GetPreloadedSkills",
+                        url: "/DraftSkill/GetPreloadedSkills",
                         type: "get"
                     }
                 }

@@ -27,8 +27,6 @@ namespace ResumeManager.UI.Models.DraftEducation
         [StartEndYearValidatorModal]
         public int? ToYear { get; set; }
 
-
-
         public string Description { get; set; }
     }
 }

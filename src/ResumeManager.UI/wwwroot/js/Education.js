@@ -10,6 +10,22 @@
             });
         });
 
+        $("#FieldOfStudy,#FieldOfStudyModal").kendoAutoComplete({
+            placeholder: "Field of study (ex. Business)",
+            filter: "startswith",
+            minLength: 1,
+            dataSource: {
+                pageSize: 100,
+                transport: {
+                    read: {
+                        url: "/DraftEducation/GetPreloadedFieldsOfStudy",
+                        type: "get"
+                    }
+                }
+            }
+        });
+
+
         //Handlebars helper
         Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
             switch (operator) {
@@ -39,7 +55,7 @@
             //get educations from DB
             var getEducations = $.ajax({
                 type: "get",
-                url: "/ResumeDraft/GetEducations",
+                url: "/DraftEducation/GetEducations",
                 data: { resumeDraftId: resumeDraftId }
             });
             getEducations.done(function (eduLisd) {
@@ -96,7 +112,7 @@
             var draftEduId = $(this).data("id");
             var removeEducation = $.ajax({
                 type: "post",
-                url: "/ResumeDraft/RemoveEducation",
+                url: "/DraftEducation/RemoveEducation",
                 data: {
                     draftEducationId: draftEduId
                 }
@@ -111,7 +127,7 @@
             var draftEduId = $(this).data("id");
             var editEducation = $.ajax({
                 type: "get",
-                url: "/ResumeDraft/GetDraftEducation",
+                url: "/DraftEducation/GetDraftEducation",
                 data: {
                     draftEducationId: draftEduId
                 }
@@ -150,7 +166,7 @@
             };
             var updateEducation = $.ajax({
                 type: "post",
-                url: "/ResumeDraft/UpdateDraftEducation",
+                url: "/DraftEducation/UpdateDraftEducation",
                 data: {
                     model: eduData
                 }

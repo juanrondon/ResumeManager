@@ -6,7 +6,7 @@ namespace ResumeManager.UI.Models.Validators
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var model = (Models.DraftEducation.UpdateEducationViewModel)validationContext.ObjectInstance;
+            var model = (DraftEducation.UpdateEducationViewModel)validationContext.ObjectInstance;
             if (model.FromYear != null && model.ToYear != null)
             {
                 var fromYear = model.FromYear.Value;

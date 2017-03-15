@@ -37,6 +37,9 @@ namespace ResumeManager.UI
             
             services.AddScoped<ResumeDraftApplicationService>();
             services.AddScoped<UserApplicationService>();
+            services.AddScoped<InterestDraftApplicationService>();
+            services.AddScoped<SkillDraftApplicationService>();
+            services.AddScoped<EducationDraftApplicationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

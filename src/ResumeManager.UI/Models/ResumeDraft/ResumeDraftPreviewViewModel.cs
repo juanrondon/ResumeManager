@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ResumeManager.UI.Models.DraftEducation;
+using ResumeManager.UI.Models.DraftExperience;
 
 namespace ResumeManager.UI.Models.ResumeDraft
 {
@@ -22,10 +20,12 @@ namespace ResumeManager.UI.Models.ResumeDraft
 
         public string PersonalSkills { get; set; }
 
-        public  List<string> Languages { get; set; }
+        public List<string> Languages { get; set; }
 
         public List<string> Skills { get; set; }
 
         public List<PreviewEducationViewModel> DraftEducations { get; set; }
+
+        public List<PreviewExperienceViewModel> DraftExperiences { get; set; }
     }
 }
