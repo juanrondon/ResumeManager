@@ -54,6 +54,18 @@ namespace ResumeManager.Migrations
                     b.ToTable("Languages");
                 });
 
+            modelBuilder.Entity("ResumeManager.DataAccess.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
             modelBuilder.Entity("ResumeManager.DataAccess.Models.Resume", b =>
                 {
                     b.Property<int>("Id")

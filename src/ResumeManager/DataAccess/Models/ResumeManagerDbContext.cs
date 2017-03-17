@@ -8,6 +8,7 @@ namespace ResumeManager.DataAccess.Models
         public DbSet<Language> Languages { get; set; }
         public DbSet<ResumeEducation> Educations { get; set; }
         public DbSet<Resume> Resumes { get; set; }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<ResumeDraft> ResumeDrafts { get; set; }
         public DbSet<ResumeSkill> ResumeSkills { get; set; }
         public DbSet<ResumeDraftSkill> ResumeDraftSkills { get; set; }

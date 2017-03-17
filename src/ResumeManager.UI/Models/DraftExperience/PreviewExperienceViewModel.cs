@@ -1,4 +1,6 @@
-﻿namespace ResumeManager.UI.Models.DraftExperience
+﻿using System;
+
+namespace ResumeManager.UI.Models.DraftExperience
 {
     public class PreviewExperienceViewModel
     {
@@ -8,11 +10,11 @@
 
         public string Location { get; set; }
 
-        public int? StartYear { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public int? EndYear { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public bool? CurrentlyWorking { get; set; }
+        public bool CurrentlyWorking { get; set; }
 
         public string Description { get; set; }
     }

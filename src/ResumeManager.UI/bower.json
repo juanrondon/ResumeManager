@@ -10,7 +10,8 @@
     "jquery-validation-unobtrusive": "3.2.6",
     "handlebars": "^4.0.5",
     "moment": "2.17.1",
-    "kendo-ui": "https://bower.telerik.com/bower-kendo-ui.git#^2017.1.307"
+    "kendo-ui": "https://bower.telerik.com/bower-kendo-ui.git#^2017.1.307",
+    "bootstrap-toggle": "^2.2.2"
   },
   "resolutions": {
     "jquery": ">= 1.7.2"

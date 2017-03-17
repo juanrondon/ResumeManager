@@ -1,24 +1,17 @@
 ﻿(function () {
-    var source = $("#educations-template").html();
+    var source = $("#Experiences-template").html();
     var template = Handlebars.compile(source);
     $(document).ready(function () {
 
-        //display or hide Description
-        $(document).on("click", ".showHide", function () {
-            $(this).text(function (i, old) {
-                return old === "See Description" ? "Hide Description" : "See Description";
-            });
-        });
-
-        $("#FieldOfStudy,#FieldOfStudyModal").kendoAutoComplete({
-            placeholder: "Field of study (ex. Business)",
+        $("#Location,#LocationModal").kendoAutoComplete({
+            placeholder: "Location (ex. Australia)",
             filter: "startswith",
             minLength: 1,
             dataSource: {
                 pageSize: 100,
                 transport: {
                     read: {
-                        url: "/ResumeDraft/GetPreloadedFieldsOfStudy",
+                        url: "/DraftExperience/GetPreloadedLocations",
                         type: "get"
                     }
                 }
@@ -26,160 +19,152 @@
         });
 
 
-        //Handlebars helper
-        Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
-            switch (operator) {
-                case "&&":
-                    return (v1 && v2) ? options.fn(this) : options.inverse(this);
-                default:
-                    return options.inverse(this);
-            }
-        });
-
-        $("#FromYear,#FromYearModal").kendoDatePicker({
+        $("#StartDate,#StartDateModal").kendoDatePicker({
             max: new Date(),
             min: new Date(1960, 1, 1),
-            start: "decade",
-            depth: "decade",
-            format: "yyyy"
+            start: "year",
+            depth: "year",
+            format: "mm/yyyy"
         });
 
-        $("#ToYear,#ToYearModal").kendoDatePicker({
+        $("#EndDate,#EndDateModal").kendoDatePicker({
             min: new Date(1960, 1, 1),
-            start: "decade",
-            depth: "decade",
-            format: "yyyy"
+            start: "year",
+            depth: "year",
+            format: "mm/yyyy"
         });
 
-        function listEducations() {
-            //get educations from DB
-            var getEducations = $.ajax({
+        function listExperiences() {
+            //get experiences from DB
+            var getExperiences = $.ajax({
                 type: "get",
-                url: "/ResumeDraft/GetEducations",
+                url: "/DraftExperience/GetExperiences",
                 data: { resumeDraftId: resumeDraftId }
             });
-            getEducations.done(function (eduLisd) {
-                if (eduLisd.length > 0) {
-                    var context = { education: eduLisd };
+            getExperiences.done(function (expList) {
+                
+                if (expList.length > 0) {
+                    var context = { experience: expList };
                     var html = template(context);
-                    $("#EducationListContainer").empty().html(html);
+                    $("#ExperienceListContainer").empty().html(html);
                 }
                 else {
-                    $("#EducationListContainer").empty();
+                    $("#ExperienceListContainer").empty();
                 }
             });
+            getExperiences.fail(function (error) {
+                debugger;
+            })
         }
 
-        //Add Qualification 
-        $("#addEducation").click(function (e) {
+        //Add Experience 
+        $("#addExperience").click(function (e) {
             e.preventDefault();
             if (!$("#createResumeDraftForm").valid())
                 return;
 
             var data = {
                 resumeDraftId: resumeDraftId,
-                school: $("#School").val(),
-                degree: $("#Degree").val(),
-                fieldOfStudy: $("#FieldOfStudy").val(),
-                grade: $("#Grade").val(),
-                fromYear: $("#FromYear").val(),
-                toYear: $("#ToYear").val(),
-                description: $("#Description").val()
+                Title: $("#Title").val(),
+                Company: $("#Company").val(),
+                Location: $("#Location").val(),
+                StartDate: $("#StartDate").val(),
+                EndDate: $("#EndDate").val(),
+                CurrentlyWorking: $("#CurrentlyWorking").val(),
+                Description: $("#Description").val()
             };
-            var addEducation = $.ajax({
+            var addExperience = $.ajax({
                 type: "post",
-                url: "/ResumeDraft/AddEducation",
+                url: "/DraftExperience/AddExperience",
                 data: data
             });
-            addEducation.done(function () {
-                $("#School").val("");
-                $("#Degree").val("");
-                $("#FieldOfStudy").val("");
-                $("#Grade").val("");
-                $("#FromYear").val("");
-                $("#ToYear").val("");
-                $("#ToYearError").html("");
+            addExperience.done(function () {
+                $("#Title").val("");
+                $("#Company").val("");
+                $("#Location").val("");
+                $("#StartDate").val("");
+                $("#EndDate").val("");
+                $("#CurrentlyWorking").val("");
                 $("#Description").val("");
-                listEducations();
+                listExperiences();
             });
-            addEducation.fail(function (errors) {
+            addExperience.fail(function (errors) {
                 displayErrors(errors, "Error");
             });
         });
 
-        //Delete education
-        $(document).on("click", ".removeEdu", function () {
-            var draftEduId = $(this).data("id");
-            var removeEducation = $.ajax({
+        //Delete experience
+        $(document).on("click", ".removeExp", function () {
+            var draftExpId = $(this).data("id");
+            var removeExperience = $.ajax({
                 type: "post",
-                url: "/ResumeDraft/RemoveEducation",
+                url: "/DraftExperience/RemoveExperience",
                 data: {
-                    draftEducationId: draftEduId
+                    draftExperienceId: draftExpId
                 }
             });
-            removeEducation.done(function () {
-                listEducations();
+            removeExperience.done(function () {
+                listExperiences();
             });
         });
 
-        //Update education - display modal
-        $(document).on("click", ".editEdu", function () {
-            var draftEduId = $(this).data("id");
-            var editEducation = $.ajax({
+        //Update experience - display modal
+        $(document).on("click", ".editExp", function () {
+            var draftExpId = $(this).data("id");
+            var editExperience = $.ajax({
                 type: "get",
-                url: "/ResumeDraft/GetDraftEducation",
+                url: "/DraftExperience/GetDraftExperience",
                 data: {
-                    draftEducationId: draftEduId
+                    draftExperienceId: draftExpId
                 }
             });
-            editEducation.done(function (data) {
+            editExperience.done(function (data) {
                 //Populate edit modal
-                $("#SchoolModal").val(data.school);
-                $("#DegreeModal").val(data.degree);
-                $("#FieldOfStudyModal").val(data.fieldOfStudy);
-                $("#GradeModal").val(data.grade);
-                $("#FromYearModal").val(data.fromYear);
-                $("#ToYearModal").val(data.toYear);
+                $("#TitleModal").val(data.title);
+                $("#CompanyModal").val(data.company);
+                $("#LocationModal").val(data.location);
+                $("#StartDateModal").val(data.startDate);
+                $("#EndDateModal").val(data.endDate);
+                $("#CurrentlyWorkingModal").val(data.currentlyWorking);
                 $("#DescriptionModal").val(data.description);
-                $("#EduId").val(data.id);
+                $("#ExpId").val(data.id);
             });
         });
 
-        //Update qualification - Save changes
+        //Update experience - Save changes
         $(document).on("click", "#saveChangesModal", function (e) {
             e.preventDefault();
-            var schoolError = $("#SchoolModal").valid();
-            var degreeError = $("#DegreeModal").valid();
-            if (!schoolError || !degreeError) {
+            var titleError = $("#TitleModal").valid();
+            var companyError = $("#CompanyModal").valid();
+            if (!titleError || !companyError) {
                 return;
             }
-            var draftEduId = $("#EduId").val();
-            var eduData = {
-                draftEducationId: draftEduId,
-                school: $("#SchoolModal").val(),
-                degree: $("#DegreeModal").val(),
-                fieldOfStudy: $("#FieldOfStudyModal").val(),
-                grade: $("#GradeModal").val(),
-                fromYear: $("#FromYearModal").val(),
-                toYear: $("#ToYearModal").val(),
+            var draftExpId = $("#ExpId").val();
+            var expData = {
+                draftExperienceId: draftExpId,
+                titleModal: $("#TitleModal").val(data.title),
+                companyModal: $("#CompanyModal").val(data.company),
+                locationModal: $("#LocationModal").val(data.location),
+                startDateModal: $("#StartDateModal").val(data.startDate),
+                endDateModal: $("#EndDateModal").val(data.endDate),
+                currentlyWorkingModal: $("#CurrentlyWorkingModal").val(data.currentlyWorking),
                 description: $("#DescriptionModal").val()
             };
-            var updateEducation = $.ajax({
+            var updateExperience = $.ajax({
                 type: "post",
-                url: "/ResumeDraft/UpdateDraftEducation",
+                url: "/DraftExperience/UpdateDraftExperience",
                 data: {
-                    model: eduData
+                    model: expData
                 }
             });
-            updateEducation.done(function () {
-                $("#ToYearModalError").html("");
-                $("#education-editor").modal("hide");
-                listEducations();
+            updateExperience.done(function () {                
+                $("#experience-editor").modal("hide");
+                listExperiences();
             });
-            updateEducation.fail(function (errors) {
+            updateExperience.fail(function (errors) {
                 displayErrors(errors, "ModalError");
             });
         });
-        listEducations();
+        listExperiences();
     });
 })();

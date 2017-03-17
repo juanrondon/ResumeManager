@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using ResumeManager.UI.Models.Validators;
 
 namespace ResumeManager.UI.Models.DraftExperience
 {
@@ -18,12 +16,12 @@ namespace ResumeManager.UI.Models.DraftExperience
         public string Location { get; set; }
 
         [Display(Name = "Start Date")]
-        public int? StartYear { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Display(Name = "End Date")]
-        public int? EndYear { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public bool? CurrentlyWorking { get; set; }
+        public bool CurrentlyWorking { get; set; }
 
         public string Description { get; set; }
     }

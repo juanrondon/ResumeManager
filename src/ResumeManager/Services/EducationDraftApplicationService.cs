@@ -77,8 +77,8 @@ namespace ResumeManager.Services
 
         public async Task<ResumeDraftEducation> GetEducation(int id)
         {
-            var qual = await _context.DraftEducations.FirstOrDefaultAsync(dq => dq.Id == id);
-            return qual;
+            var draftEducation = await _context.DraftEducations.FirstOrDefaultAsync(de => de.Id == id);
+            return draftEducation;
         }
     }
 }

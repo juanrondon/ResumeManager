@@ -1,0 +1,61 @@
+@model ResumeManager.UI.Models.DraftExperience.UpdateExperienceViewModel
+
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>Edit Education</h3>
+</div>
+<input type="hidden" id="ExpId" />
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.Title" class="control-label req"></label>
+                <input id="TitleModal" asp-for="@Model.Title" placeholder="Title (ex. Accountant)" class="form-control" />
+                <span asp-validation-for="@Model.Title" id="TitleModalError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Company" class="control-label req"></label>
+                <input id="CompanyModal" asp-for="@Model.Company" placeholder="Company name (ex. Oracle)" class="form-control" />
+                <span asp-validation-for="@Model.Company" id="CompanyModalError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Location" class="control-label"></label>
+                <input asp-for="@Model.Location" id="LocationModal" style="width:400px;" class="form-control" />
+            </div>
+            <div>
+                <div class="form-group col-md-3">
+                    <div>
+                        <label asp-for="@Model.StartDate" class="control-label"></label>
+                    </div>
+                    <input id="StartDateModal" placeholder="Month/Year" class="form-control" asp-for="@Model.StartDate" />
+                    <span asp-validation-for="@Model.StartDate" id="StartDateModalError" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <div>
+                        <label asp-for="@Model.EndDate" class="control-label"></label>
+                    </div>
+                    <input id="EndDateModal" placeholder="Month/Year" class="form-control" asp-for="@Model.EndDate" />
+                    <span asp-validation-for="@Model.EndDate" id="EndDateModalError" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="@Model.CurrentlyWorking" class="control-label"></label>
+                    <input type="checkbox" data-on="Yes" data-off="No" data-toggle="toggle" data-size="small" asp-for="@Model.CurrentlyWorking" id="CurrentlyWorkingModal" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="control-label"></label>
+                <textarea id="DescriptionModal" asp-for="@Model.Description" rows="12" placeholder="Enter other relevant information" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="button" id="addExperience" class="btn btn-primary">Add Experience</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Cancel</a>
+    <a id="saveChangesModal" class="btn btn-primary">Save Changes</a>
+</div>
