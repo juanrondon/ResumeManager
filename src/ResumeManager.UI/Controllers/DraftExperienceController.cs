@@ -43,8 +43,8 @@ namespace ResumeManager.UI.Controllers
                 Title = model.Title,
                 Company = model.Company,
                 CurrentlyWorking = model.CurrentlyWorking,
-                EndDate = model.EndDate,
-                StartDate = model.StartDate,
+                EndDate = model.EndDate.Value,
+                StartDate = model.StartDate.Value,
                 Location = model.Location,
                 ResumeDraftId = model.ResumeDraftId,
                 Description = model.Description
@@ -84,7 +84,18 @@ namespace ResumeManager.UI.Controllers
         public async Task<IActionResult> GetExperiences(int resumeDraftId)
         {
             var list = await _experienceDraftService.GetExperiences(resumeDraftId);
-            return Ok(list);
+            var objectList = list.Select(e => new
+            {
+                title = e.Title,
+                company = e.Company,
+                startDate = e.StartDate,
+                endDate = e.EndDate,
+                location = e.Location,
+                description = e.Description,
+                currentlyWorking = e.CurrentlyWorking,
+                id = e.Id
+            }).ToList();
+            return Ok(objectList);
         }
 
         [HttpPost]

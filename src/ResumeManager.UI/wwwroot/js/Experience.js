@@ -1,6 +1,18 @@
 ﻿(function () {
     var source = $("#Experiences-template").html();
     var template = Handlebars.compile(source);
+
+    //Handlebars Helper
+    Handlebars.registerHelper("formatDate", function (datetime, format) {
+        if (moment) {
+            return moment(datetime).format(format);
+        }
+        else {
+            return datetime;
+        }
+    });
+
+
     $(document).ready(function () {
 
         $("#Location,#LocationModal").kendoAutoComplete({
@@ -20,18 +32,18 @@
 
 
         $("#StartDate,#StartDateModal").kendoDatePicker({
-            max: new Date(),
             min: new Date(1960, 1, 1),
             start: "year",
             depth: "year",
-            format: "mm/yyyy"
+            format: "MM/yyyy"
         });
 
         $("#EndDate,#EndDateModal").kendoDatePicker({
             min: new Date(1960, 1, 1),
+            max: new Date(),
             start: "year",
             depth: "year",
-            format: "mm/yyyy"
+            format: "MM/yyyy"
         });
 
         function listExperiences() {
@@ -42,7 +54,7 @@
                 data: { resumeDraftId: resumeDraftId }
             });
             getExperiences.done(function (expList) {
-                
+
                 if (expList.length > 0) {
                     var context = { experience: expList };
                     var html = template(context);
@@ -51,10 +63,7 @@
                 else {
                     $("#ExperienceListContainer").empty();
                 }
-            });
-            getExperiences.fail(function (error) {
-                debugger;
-            })
+            });            
         }
 
         //Add Experience 
@@ -71,7 +80,7 @@
                 StartDate: $("#StartDate").val(),
                 EndDate: $("#EndDate").val(),
                 CurrentlyWorking: $("#CurrentlyWorking").val(),
-                Description: $("#Description").val()
+                Description: $("#ExpDescription").val()
             };
             var addExperience = $.ajax({
                 type: "post",
@@ -157,7 +166,7 @@
                     model: expData
                 }
             });
-            updateExperience.done(function () {                
+            updateExperience.done(function () {
                 $("#experience-editor").modal("hide");
                 listExperiences();
             });

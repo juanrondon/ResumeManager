@@ -19,18 +19,18 @@
                 <span asp-validation-for="@Model.AddExperienceViewModel.Location" id="LocationError" class="text-danger"></span>
             </div>            
             <div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <div>
                         <label asp-for="@Model.AddExperienceViewModel.StartDate" class="control-label"></label>
                     </div>
-                    <input id="StartDate" placeholder="Month/Year" class="form-control" asp-for="@Model.AddExperienceViewModel.StartDate" />
+                    <input id="StartDate" placeholder="MM/YYYY" class="form-control" asp-for="@Model.AddExperienceViewModel.StartDate" />
                     <span asp-validation-for="@Model.AddExperienceViewModel.StartDate" id="StartDateError" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <div>
                         <label asp-for="@Model.AddExperienceViewModel.EndDate" class="control-label"></label>
                     </div>
-                    <input id="EndDate" placeholder="Month/Year" class="form-control" asp-for="@Model.AddExperienceViewModel.EndDate" />
+                    <input id="EndDate" placeholder="MM/YYYY" class="form-control" asp-for="@Model.AddExperienceViewModel.EndDate" />
                     <span asp-validation-for="@Model.AddExperienceViewModel.EndDate" id="EndDateError" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-4" >
@@ -44,7 +44,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="@Model.AddExperienceViewModel.Description" class="control-label"></label>
-                <textarea id="Description" asp-for="@Model.AddExperienceViewModel.Description" rows="12" placeholder="Enter other relevant information" class="form-control"></textarea>
+                <textarea id="ExpDescription" asp-for="@Model.AddExperienceViewModel.Description" rows="12" placeholder="Enter other relevant information" class="form-control"></textarea>
             </div>
             <div class="form-group">
                 <button type="button" id="addExperience" class="btn btn-primary">Add Experience</button>
@@ -78,25 +78,25 @@
                 {{#each experience}}
                 <tr>
                     <td>
-                        <strong>{{experience.title}}</strong><br />
-                        {{experience.company}}                                       
-                        {{#ifCond experience.startDate "&&" experience.endDate}}                       
-                                <small>{{experience.startDate}} - {{experience.endDate}}</small><br />                        
+                        <strong>{{title}}</strong><br />
+                        {{company}}                                       
+                        {{#ifCond startDate "&&" endDate}}                       
+                                - <small>({{formatDate startDate "MMM/YYYY"}} - {{formatDate endDate "MMM/YYYY"}})</small>                       
                         {{else}}
-                            {{#if experience.endDate}}
-                                <small>{{experience.endDate}}</small><br />
+                            {{#if endDate}}
+                                - <small>{{formatDate endDate "MMM/YYYY"}}</small>
                             {{else}}                            
-                                <small>{{experience.startDate}}</small><br />
+                                - <small>{{formatDate startDate "MMM/YYYY"}}</small>
                             {{/if}}
                         {{/ifCond}}
-                        {{#if experience.location}}
-                        - {{experience.location}}
+                        {{#if location}}
+                            - {{location}}<br />
                         {{/if}}
-                        {{#if experience.description}}
-                        <a data-toggle="collapse" class="showHide" data-target="#desc{{id}}">See Description</a>
-                        <div id="desc{{id}}" class="collapse">
-                            <p class="description">{{experience.description}}</p>
-                        </div>
+                        {{#if description}}
+                            <a data-toggle="collapse" class="showHide" data-target="#desc{{id}}">See Description</a>
+                            <div id="desc{{id}}" class="collapse">
+                                <p class="description">{{description}}</p>
+                            </div>
                         {{/if}}
                     </td>
                     <td class="text-right">
