@@ -69,6 +69,5 @@ namespace ResumeManager.UI.Controllers
         {
             return Ok(_interestDraftService.GetPreloadedInterests());
         }
-
     }
 }
